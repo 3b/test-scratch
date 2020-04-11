@@ -37,14 +37,15 @@ jobs:
         path: ~/.roswell
         key: ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-${{ hashFiles('**/*.asd') }}
         restore-keys: ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-
+        
     - name: install roswell
       # always run install, since it does some global installs and setup
       env:
        LISP: ${{ matrix.lisp }}
       run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
     
- 
     - name: run lisp
       run: |
         ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
         ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))'
+        
