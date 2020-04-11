@@ -4,25 +4,33 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+
 jobs:
   test:
+    name: ${{ matrix.lisp }} on ${{ matrix.os }}
     strategy:
       matrix: 
         # sbcl32 and clisp32 don't work, clasp won't build on CI servers?
-        lisp: [sbcl-bin,ccl,ccl32,ecl,clisp,allegro]
+        #lisp: [sbcl-bin,ccl,ccl32,ecl,clisp,allegro]
+          lisp: [sbcl-bin, ccl]
+        os: [ubuntu-latest, maxOS-latest]
       fail-fast: false
       
-    runs-on: ubuntu-latest
-
+    runs-on: ${{ matrix.os }}
+    
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-    - name: install roswell
-      env:
-       LISP: ${{ matrix.lisp }}
-      run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
-       
-    - name: run lisp
-      run: |
-        ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
-        ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))'
+    - name: calculate cache name
+      run: echo "::set-env name=cache-key::$(date +%B%d)"
+    -name: caches
+     run: echo cache key = ${{ env.cache-key }}
+#    - name: install roswell
+#      env:
+#       LISP: ${{ matrix.lisp }}
+#      run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+#       
+#    - name: run lisp
+#      run: |
+#        ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
+#        ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))'
