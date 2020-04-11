@@ -7,8 +7,8 @@ on:
 
 env:
   roswell-root: ~/roswell
-  ROSWELL_DIR: ${{ env.roswell-root }}/.roswell
-  ROSWELL_INSTALL_DIR: ${{ env.roswell-root }}/install
+  ROSWELL_DIR: ${{ roswell-root }}/.roswell
+  ROSWELL_INSTALL_DIR: ${{ roswell-root }}/install
 
 jobs:
   test:
