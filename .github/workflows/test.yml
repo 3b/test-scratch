@@ -12,7 +12,7 @@ jobs:
       matrix: 
         # sbcl32 and clisp32 don't work, clasp won't build on CI servers?
         #lisp: [sbcl-bin,ccl,ccl32,ecl,clisp,allegro]
-        lisp: [sbcl-bin, ccl]
+        lisp: [sbcl-bin, ccl, ecl]
         os: [ubuntu-latest] #, macos-latest]
       fail-fast: false
       
@@ -49,7 +49,6 @@ jobs:
         which ros
         echo home = $HOME
         ls -la $HOME
-        ls -laR $HOME/local
         ls -laR $HOME/.roswell
         ls -laR $HOME/.config
         ls -laR $HOME/.cache
