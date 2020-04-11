@@ -37,6 +37,7 @@ jobs:
       run: |
         mkdir -p ~/local/bin
         mkdir -p ~/lisp
+        mkdir -p ~/.cache
         echo "::add-path::~/local/bin"
   
     - name: cache roswell install
@@ -69,6 +70,7 @@ jobs:
     - name: home dir
       run: |
         pwd
+        which ros
         echo home = $HOME
         ls -la $HOME
         ls -laR $HOME/local
