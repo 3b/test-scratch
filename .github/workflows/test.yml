@@ -38,7 +38,7 @@ jobs:
       run: |
         echo workspace = $GITHUB_WORKSPACE
         ls -lR $GITHUB_WORKSPACE
-    - name: run lisp
+#    - name: run lisp
 #      run: |
 #        ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
 #        ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))'
