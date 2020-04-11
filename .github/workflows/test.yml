@@ -13,7 +13,7 @@ jobs:
         # sbcl32 and clisp32 don't work, clasp won't build on CI servers?
         #lisp: [sbcl-bin,ccl,ccl32,ecl,clisp,allegro]
         lisp: [sbcl-bin, ccl]
-        os: [ubuntu-latest, maxOS-latest]
+        os: [ubuntu-latest, macos-latest]
       fail-fast: false
       
     runs-on: ${{ matrix.os }}
