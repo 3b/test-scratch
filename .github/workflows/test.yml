@@ -6,9 +6,7 @@ on:
     branches: [ master ]
 
 env:
-  roswell-root: ~/roswell
-  ROSWELL_DIR: ~/roswell/.roswell
-  ROSWELL_INSTALL_DIR: ~/roswell/install
+  ROSWELL_INSTALL_DIR: ~/local
 
 jobs:
   test:
@@ -35,14 +33,26 @@ jobs:
         echo cache key = ${{ env.cache-key }}
         echo ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-${{ hashFiles('**/*.asd') }}
 
-    
+    - name: set path
+      run: |
+        mkdir -p ~/local/bin
+        mkdir -p ~/lisp
+        echo "::add-path::~/local/bin"
+  
     - name: cache roswell install
       id: cache-roswell
       uses: actions/cache@v1
       with:
-        path: ${{ env.roswell-root }}
+        path: ~/local/
         key: ${{ runner.os }}-${{ matrix.lisp }}-roswell-${{ hashFiles('**/*.asd') }}
     
+    - name: cache .roswell
+      id: cache-dot-roswell
+      uses: actions/cache@v1
+      with:
+        path: ~/.roswell
+        key: ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-${{ hashFiles('**/*.asd') }}
+  
     - name: cache .config
       id: cache-dot-config
       uses: actions/cache@v1
@@ -61,7 +71,8 @@ jobs:
         pwd
         echo home = $HOME
         ls -la $HOME
-        ls -laR $HOME/roswell
+        ls -laR $HOME/local
+        ls -laR $HOME/.roswell
         ls -laR $HOME/.config
         ls -laR $HOME/.cache
         ls -laR $HOME/lisp
