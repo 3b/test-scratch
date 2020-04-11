@@ -23,8 +23,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: calculate cache name
       run: echo "::set-env name=cache-key::$(date +%B%d)"
-    -name: caches
-     run: echo cache key = ${{ env.cache-key }}
+    - name: caches
+      run: echo cache key = ${{ env.cache-key }}
 #    - name: install roswell
 #      env:
 #       LISP: ${{ matrix.lisp }}
