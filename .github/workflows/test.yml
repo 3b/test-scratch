@@ -13,7 +13,7 @@ jobs:
         # sbcl32 and clisp32 don't work, clasp won't build on CI servers?
         #lisp: [sbcl-bin,ccl,ccl32,ecl,clisp,allegro]
         lisp: [sbcl-bin, ccl]
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest] #, macos-latest]
       fail-fast: false
       
     runs-on: ${{ matrix.os }}
@@ -33,11 +33,7 @@ jobs:
     - name: home dir
       run: |
         echo home = $HOME
-        ls -lR $HOME
-    - name: workspace
-      run: |
-        echo workspace = $GITHUB_WORKSPACE
-        ls -lR $GITHUB_WORKSPACE
+        ls -la $HOME
 #    - name: run lisp
 #      run: |
 #        ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
