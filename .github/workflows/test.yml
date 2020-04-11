@@ -5,9 +5,6 @@ on:
   pull_request:
     branches: [ master ]
 
-env:
-  ROSWELL_INSTALL_DIR: ~/local
-
 jobs:
   test:
     name: ${{ matrix.lisp }} on ${{ matrix.os }}
@@ -32,20 +29,6 @@ jobs:
       run: |
         echo cache key = ${{ env.cache-key }}
         echo ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-${{ hashFiles('**/*.asd') }}
-
-    - name: set path
-      run: |
-        mkdir -p ~/local/bin
-        mkdir -p ~/lisp
-        mkdir -p ~/.cache
-        echo "::add-path::~/local/bin"
-  
-    - name: cache roswell install
-      id: cache-roswell
-      uses: actions/cache@v1
-      with:
-        path: ~/local/
-        key: ${{ runner.os }}-${{ matrix.lisp }}-roswell-${{ hashFiles('**/*.asd') }}
     
     - name: cache .roswell
       id: cache-dot-roswell
@@ -54,15 +37,8 @@ jobs:
         path: ~/.roswell
         key: ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-${{ hashFiles('**/*.asd') }}
   
-    - name: cache .config
-      id: cache-dot-config
-      uses: actions/cache@v1
-      with:
-        path: ~/.config/common-lisp # wrong on windows :/
-        key: ${{ runner.os }}-${{ matrix.lisp }}-dot-config-${{ hashFiles('**/*.asd') }}
-    
     - name: install roswell
-      if: steps.cache-roswell.outputs.cache-hit != 'true'
+      # always run install, since it does some global installs and setup
       env:
        LISP: ${{ matrix.lisp }}
       run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
