@@ -25,12 +25,20 @@ jobs:
       run: echo "::set-env name=cache-key::$(date +%B%d)"
     - name: caches
       run: echo cache key = ${{ env.cache-key }}
-#    - name: install roswell
-#      env:
-#       LISP: ${{ matrix.lisp }}
-#      run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
-#       
-#    - name: run lisp
+#    - name: cache ros install
+    - name: install roswell
+      env:
+       LISP: ${{ matrix.lisp }}
+      run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+    - name: home dir
+      run: |
+        echo home = $HOME
+        ls -lR $HOME
+    - name: workspace
+      run: |
+        echo workspace = $GITHUB_WORKSPACE
+        ls -lR $GITHUB_WORKSPACE
+    - name: run lisp
 #      run: |
 #        ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
 #        ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))'
