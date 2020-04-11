@@ -7,8 +7,8 @@ on:
 
 env:
   roswell-root: ~/roswell
-  ROSWELL_DIR: ${{ roswell-root }}/.roswell
-  ROSWELL_INSTALL_DIR: ${{ roswell-root }}/install
+  ROSWELL_DIR: ${{ env.roswell-root }}/.roswell
+  ROSWELL_INSTALL_DIR: ${{ env.roswell-root }}/install
 
 jobs:
   test:
@@ -40,8 +40,9 @@ jobs:
       id: cache-roswell
       uses: actions/cache@v1
       with:
-        path: ${{ roswell-root }}
+        path: ${{ env.roswell-root }}
         key: ${{ runner.os }}-${{ matrix.lisp }}-roswell-${{ hashFiles('**/*.asd') }}
+    
     - name: cache .config
       id: cache-dot-config
       uses: actions/cache@v1
