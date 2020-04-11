@@ -5,6 +5,11 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  roswell-root: ~/roswell
+  ROSWELL_DIR: ${{ env.roswell-root }}/.roswell
+  ROSWELL_INSTALL_DIR: ${{ env.roswell-root }}/install
+
 jobs:
   test:
     name: ${{ matrix.lisp }} on ${{ matrix.os }}
@@ -35,8 +40,14 @@ jobs:
       id: cache-roswell
       uses: actions/cache@v1
       with:
-        path: ~/.roswell
-        key: ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-${{ hashFiles('**/*.asd') }}
+        path: ${{ roswell-root }}
+        key: ${{ runner.os }}-${{ matrix.lisp }}-roswell-${{ hashFiles('**/*.asd') }}
+    - name: cache .config
+      id: cache-dot-config
+      uses: actions/cache@v1
+      with:
+        path: ~/.config/common-lisp # wrong on windows :/
+        key: ${{ runner.os }}-${{ matrix.lisp }}-dot-config-${{ hashFiles('**/*.asd') }}
     
     - name: install roswell
       if: steps.cache-roswell.outputs.cache-hit != 'true'
@@ -49,9 +60,11 @@ jobs:
         pwd
         echo home = $HOME
         ls -la $HOME
-        ls -laR $HOME/lisp
-        ls -laR $HOME/.roswell
+        ls -laR $HOME/roswell
+        ls -laR $HOME/.config
         ls -laR $HOME/.cache
+        ls -laR $HOME/lisp
+
 
     - name: run lisp
       run: |
