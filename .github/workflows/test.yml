@@ -21,23 +21,39 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+      
     - name: calculate cache name
       run: echo "::set-env name=cache-key::$(date +%B%d)"
+   
     - name: caches
-      run: echo cache key = ${{ env.cache-key }}
-#    - name: cache ros install
+      run: |
+        echo cache key = ${{ env.cache-key }}
+        echo ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-${{ hashFiles('**/*.asd') }}
+
+    
+    - name: cache roswell install
+      id: cache-roswell
+      uses: actions/cache@v1
+      with:
+        path: ~/.roswell
+        key: ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-${{ hashFiles('**/*.asd') }}
+    
     - name: install roswell
+      if: steps.cache-roswell.outputs.cache-hit != 'true'
       env:
        LISP: ${{ matrix.lisp }}
       run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+    
     - name: home dir
       run: |
+        pwd
         echo home = $HOME
         ls -la $HOME
         ls -laR $HOME/lisp
         ls -laR $HOME/.roswell
         ls -laR $HOME/.cache
-#    - name: run lisp
-#      run: |
-#        ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
-#        ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))'
+
+    - name: run lisp
+      run: |
+        ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
+        ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))'
