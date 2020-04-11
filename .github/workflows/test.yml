@@ -34,6 +34,9 @@ jobs:
       run: |
         echo home = $HOME
         ls -la $HOME
+        ls -laR $HOME/lisp
+        ls -laR $HOME/.roswell
+        ls -laR $HOME/.cache
 #    - name: run lisp
 #      run: |
 #        ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
