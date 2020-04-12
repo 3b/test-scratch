@@ -11,9 +11,9 @@ jobs:
     strategy:
       matrix: 
         # sbcl32 and clisp32 don't work, clasp won't build on CI servers?
-        lisp: [sbcl, ccl,ccl32,ecl,clisp,allegro,cmucl,abcl]
+        #lisp: [sbcl, ccl,ccl32,ecl,clisp,allegro,cmucl,abcl]
         #lisp: [sbcl, ccl, ecl, cmucl]
-        #lisp: [cmucl ]
+        lisp: [sbcl ]
         #os: [ubuntu-latest, macos-latest, windows-latest]
         os: [ windows-latest ]
         #os: [ubuntu-latest]
@@ -68,7 +68,7 @@ jobs:
         key: ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-${{ hashFiles('**/*.asd') }}
         restore-keys: ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-
         
-    - run: echo `which sh`
+    - run: sh -c "echo `which sh`"
       
     - name: install roswell
       # always run install, since it does some global installs and setup that isn't cached
