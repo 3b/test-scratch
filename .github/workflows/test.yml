@@ -62,7 +62,8 @@ jobs:
         ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))'
         ros -e "(format t \"tf = ~s~%\" (ql:where-is-system 'trivial-features))"
         ros -e "(format t \"pngload= ~s~%\" (ql:where-is-system 'pngload))"
-        ros -e '(format t "features = ~s~%" *features*)'
+        ros -e '(format t "init features = ~s~%" *features*)'
+        ros -e "(ql:quickload 'trivial-features)" -e '(format t "features = ~s~%" *features*)'
         ls -lR ~/lisp
         
     - name: load code from clean fasl cache
