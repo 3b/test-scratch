@@ -8,7 +8,7 @@ on:
 jobs:
   test:
     name: ${{ matrix.lisp }} on ${{ matrix.os }}
-    strategy:
+    strategy: 
       matrix: 
         # sbcl32 and clisp32 don't work, clasp won't build on CI servers?
         #lisp: [sbcl-bin, sbcl, ccl,ccl32,ecl,clisp,allegro,cmucl,abcl]
