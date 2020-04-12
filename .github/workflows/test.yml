@@ -39,7 +39,7 @@ jobs:
         restore-keys: ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-
         
     - name: install roswell
-      # always run install, since it does some global installs and setup
+      # always run install, since it does some global installs and setup that isn't cached
       env:
        LISP: ${{ matrix.lisp }}
       run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
@@ -49,3 +49,20 @@ jobs:
         ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
         ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))'
         
+    - name: load code from clean fasl cache
+      run: |
+        rm -rf ~/.cache/common-lisp/
+        mkdir -p ~/.cache/common-lisp/
+        ros -e "(ql:quickload 'testing123)"
+        
+    - name: load code from fasls and run tests
+      run: |
+        ros -e "(ql:quickload 'testing123)" -e "(pngload.test:test-images)"
+        
+    - name: test read times
+      run: |
+        curl http://3bb.cc/tmp/fft.png -o /tmp/fft.png
+        ros -e "(ql:quickload 'testing123)" -e '(pngload.test:test-read-times "/tmp/fft.png" :count 10)'
+    
+    
+    
