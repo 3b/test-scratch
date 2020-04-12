@@ -68,6 +68,8 @@ jobs:
         key: ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-${{ hashFiles('**/*.asd') }}
         restore-keys: ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-
         
+    - run: echo `which sh`
+      
     - name: install roswell
       # always run install, since it does some global installs and setup that isn't cached
       env:
