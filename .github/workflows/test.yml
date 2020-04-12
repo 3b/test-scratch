@@ -19,9 +19,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    # Check out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-      
+    # check out extra repo if not in QL, or version in ql is too old
+    - run: mkdir -p ~/lisp/
+    - name: extra repos
+      uses: actions/checkout@v2
+      with:
+        repository: trivial-features/trivial-features
+        path: ~/lisp/trivial-features
+    
     - name: calculate cache name
       run: echo "::set-env name=cache-key::$(date +%B%d)"
    
