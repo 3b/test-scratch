@@ -94,7 +94,7 @@ jobs:
         ros -e "(ql:quickload 'testing123)"
         
     - name: load code from fasls and run tests
-      run: ros -e "(ql:quickload 'testing123)" -e "(pngload.test:test-images)"
+      run: ros -e "(ql:quickload :testing123)" -e "(pngload.test:test-images)"
         
     - name: test read times
       run: |
