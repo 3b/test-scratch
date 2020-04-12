@@ -50,7 +50,8 @@ jobs:
       # always run install, since it does some global installs and setup that isn't cached
       env:
        LISP: ${{ matrix.lisp }}
-      run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+      #run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+      run: curl -L https://raw.githubusercontent.com/3b/roswell/master/scripts/install-for-ci.sh | sh
     
     - name: run lisp
       continue-on-error: true
