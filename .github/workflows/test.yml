@@ -15,12 +15,20 @@ jobs:
         #lisp: [sbcl, ccl, ecl, cmucl]
         #lisp: [cmucl ]
         #os: [ubuntu-latest, macos-latest, windows-latest]
-        os: [ubuntu-latest, macos-latest]
+        os: [ macos-latest]
         #os: [ubuntu-latest]
         exclude:
           # skip 32bit lisps on osx
             - os: macos-latest
-              lisp: [sbcl32, ccl32, clisp32, allegro, cmucl, abcl]
+              lisp: sbcl32
+            - os: macos-latest
+              lisp: ccl32
+            - os: macos-latest
+              lisp: clisp32
+            - os: macos-latest
+              lisp: allegro
+            - os: macos-latest
+              lisp: cmucl
       fail-fast: false
       
     runs-on: ${{ matrix.os }}
