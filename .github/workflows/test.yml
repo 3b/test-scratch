@@ -26,11 +26,16 @@ jobs:
     - uses: actions/checkout@v2
     # check out extra repo if not in QL, or version in ql is too old
     - run: mkdir -p ~/lisp/
-    - name: extra repos
+    - name: trivial-features from git
       uses: actions/checkout@v2
       with:
         repository: trivial-features/trivial-features
         path: ~/lisp/trivial-features
+    - name: mmap from git
+      uses: actions/checkout@v2
+      with:
+        repository: Shinmera/mmap
+        path: ~/lisp/mmap
     
     - name: calculate cache name
       run: echo "::set-env name=cache-key::$(date +%B%d)"
