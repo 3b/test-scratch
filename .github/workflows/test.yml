@@ -56,6 +56,7 @@ jobs:
       run: echo "::set-env name=cache-key::$(date +%B%d)"
    
     - name: caches
+      shell: bash
       run: |
         echo cache key = ${{ env.cache-key }}
         echo ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-${{ hashFiles('**/*.asd') }}
@@ -77,6 +78,7 @@ jobs:
     
     - name: run lisp
       continue-on-error: true
+      shell: bash
       run: |
         ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
         ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))'
@@ -87,19 +89,20 @@ jobs:
         ls -lR ~/lisp
         
     - name: load code from clean fasl cache
-      if: matrix.os != 'windows-latest'
+      #if: matrix.os != 'windows-latest'
+      shell: bash
       run: |
         rm -rf ~/.cache/common-lisp/
         mkdir -p ~/.cache/common-lisp/
         ros -e "(ql:quickload 'testing123)"
         
     - name: load code from fasls and run tests
+      shell: bash
       run: ros -e "(ql:quickload :testing123)" -e "(pngload.test:test-images)"
         
     - name: test read times
+      shell: bash
       run: |
         curl http://3bb.cc/tmp/fft.png -o /tmp/fft.png
         ros -e "(ql:quickload 'testing123)" -e '(pngload.test:test-read-times "/tmp/fft.png" :count 10)'
-    
-    
-    
+
