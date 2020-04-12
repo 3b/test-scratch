@@ -11,10 +11,10 @@ jobs:
     strategy:
       matrix: 
         # sbcl32 and clisp32 don't work, clasp won't build on CI servers?
-        lisp: [sbcl-bin,ccl,ccl32,ecl,clisp,allegro,cmucl,abcl]
-        #lisp: [sbcl, ccl, ecl]
-        #os: [ubuntu-latest] #, macos-latest]
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        #lisp: [sbcl-bin,ccl,ccl32,ecl,clisp,allegro,cmucl, abcl]
+        lisp: [sbcl, ccl, ecl, cmucl]
+        #os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest]
       fail-fast: false
       
     runs-on: ${{ matrix.os }}
@@ -53,9 +53,13 @@ jobs:
       run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
     
     - name: run lisp
+      continue-on-error: true
       run: |
         ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
         ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))'
+        ros -e "(print (ql:where-is-system 'trivial-features))"
+        ros -e "(print (ql:where-is-system 'pngload))"
+        ls -lR ~/lisp
         
     - name: load code from clean fasl cache
       run: |
