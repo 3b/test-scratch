@@ -117,6 +117,7 @@ jobs:
     - name: cmucl hax
       # cmucl gets some build errors on deps we don't actually need, so try a few extra loads
       continue-on-error: true
+      if: matrix.os == 'cmucl'
       shell: bash
       run: |
         ros -s testing123
