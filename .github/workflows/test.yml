@@ -13,7 +13,7 @@ jobs:
         # sbcl32 and clisp32 don't work, clasp won't build on CI servers?
         #lisp: [sbcl-bin,sbcl,ccl,ccl32,ecl,clisp,allegro,cmucl,abcl]
         #os: [ubuntu-latest, macos-latest, windows-latest]
-        lisp: [ abcl, sbcl, clisp ]
+        lisp: [ abcl, sbcl, clisp]
         os: [ ubuntu-latest ]
         exclude:
           # ccl doesn't seem to work on osx?
