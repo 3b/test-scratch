@@ -78,6 +78,12 @@ jobs:
         path: ~/lisp/pngload
         ref: tmp
     
+    - name: 3bz from git
+      uses: actions/checkout@v2
+      with:
+        repository: 3b/3bz
+        path: ~/lisp/3bz
+    
     - name: calculate cache name
       run: echo "::set-env name=cache-key::$(date +%B%d)"
    
