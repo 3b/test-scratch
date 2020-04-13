@@ -83,7 +83,7 @@ jobs:
       continue-on-error: true
       shell: bash
       run: |
-        ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))' -q
+        ros -e '(format t "~a:~a on ~a~%...~%~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))' -e '(format t "---~%")' -e '(uiop:quit 1)' -q
         ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))' -q
         ros -e "(format t \"tf = ~s~%\" (ql:where-is-system 'trivial-features))" -q
         ros -e "(format t \"pngload= ~s~%\" (ql:where-is-system 'pngload))" -q
