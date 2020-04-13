@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix: 
         # sbcl32 and clisp32 don't work, clasp won't build on CI servers?
-        lisp: [sbcl-bin,sbcl,ccl,ccl32,ecl,clisp,allegro,cmucl,abcl]
+        lisp: [sbcl-bin,sbcl,ccl/1.10, ccl,ccl32,ecl,clisp,allegro,cmucl,abcl]
         os: [ubuntu-latest, macos-latest, windows-latest]
         exclude:
           # ccl doesn't seem to work on osx?
@@ -99,14 +99,13 @@ jobs:
       run: |
         echo 1
         echo "path=$PATH"
-        ros -v -v -e '(format t "~a:~a on ~a~%...~%~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))' -e '(format t "q-o-e = ~s~%" *quit-on-eof*)' -e '(setf *quit-on-eof* t)' -e '(quit)' -e '(format t "---~%")' -e '(uiop:quit 1 t)' -e '(format t "??~%")' -q -e '(format t "!?~%")'
+        ros -e '(format t "~a:~a on ~a~%...~%~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
         echo 3
         ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))' -q
         ros -e "(format t \"tf = ~s~%\" (ql:where-is-system 'trivial-features))" -q
         ros -e "(format t \"pngload= ~s~%\" (ql:where-is-system 'pngload))" -q
         ros -e '(format t "init features = ~s~%" *features*)' -q
         ros -e "(ql:quickload 'trivial-features)" -e '(format t "features = ~s~%" *features*)'-q
-        ls -lR ~/lisp
         
     - name: load code from clean fasl cache
       #if: matrix.os != 'windows-latest'
