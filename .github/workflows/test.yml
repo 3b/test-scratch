@@ -83,12 +83,12 @@ jobs:
       continue-on-error: true
       shell: bash
       run: |
-        ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
-        ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))'
-        ros -e "(format t \"tf = ~s~%\" (ql:where-is-system 'trivial-features))"
-        ros -e "(format t \"pngload= ~s~%\" (ql:where-is-system 'pngload))"
-        ros -e '(format t "init features = ~s~%" *features*)'
-        ros -e "(ql:quickload 'trivial-features)" -e '(format t "features = ~s~%" *features*)'
+        ros -e '(format t "~a:~a on ~a~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))' -q
+        ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))' -q
+        ros -e "(format t \"tf = ~s~%\" (ql:where-is-system 'trivial-features))" -q
+        ros -e "(format t \"pngload= ~s~%\" (ql:where-is-system 'pngload))" -q
+        ros -e '(format t "init features = ~s~%" *features*)' -q
+        ros -e "(ql:quickload 'trivial-features)" -e '(format t "features = ~s~%" *features*)'-q
         ls -lR ~/lisp
         
     - name: load code from clean fasl cache
@@ -97,15 +97,15 @@ jobs:
       run: |
         rm -rf ~/.cache/common-lisp/
         mkdir -p ~/.cache/common-lisp/
-        ros -e "(ql:quickload 'testing123)"
+        ros -e "(ql:quickload 'testing123)" -q
         
     - name: load code from fasls and run tests
       shell: bash
-      run: ros -e "(ql:quickload :testing123)" -e "(pngload.test:test-images)"
+      run: ros -e "(ql:quickload :testing123)" -e "(pngload.test:test-images)" -q
         
     - name: test read times
       shell: bash
       run: |
         curl http://3bb.cc/tmp/fft.png -o /tmp/fft.png
-        ros -e "(ql:quickload 'testing123)" -e '(pngload.test:test-read-times "/tmp/fft.png" :count 10)'
+        ros -e "(ql:quickload 'testing123)" -e '(pngload.test:test-read-times "/tmp/fft.png" :count 10)' -q
 
