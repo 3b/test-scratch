@@ -103,11 +103,11 @@ jobs:
         echo "path=$PATH"
         ros -e '(format t "~a:~a on ~a~%...~%~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))'
         echo 3
-        ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))' -q
-        ros -e "(format t \"tf = ~s~%\" (ql:where-is-system 'trivial-features))" -q
-        ros -e "(format t \"pngload= ~s~%\" (ql:where-is-system 'pngload))" -q
-        ros -e '(format t "init features = ~s~%" *features*)' -q
-        ros -e "(ql:quickload 'trivial-features)" -e '(format t "features = ~s~%" *features*)'-q
+        ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))'
+        ros -e "(format t \"tf = ~s~%\" (ql:where-is-system 'trivial-features))"
+        ros -e "(format t \"pngload= ~s~%\" (ql:where-is-system 'pngload))"
+        ros -e '(format t "init features = ~s~%" *features*)'
+        ros -e "(ql:quickload 'trivial-features)" -e '(format t "features = ~s~%" *features*)'
         
     - name: load code from clean fasl cache
       #if: matrix.os != 'windows-latest'
@@ -115,15 +115,15 @@ jobs:
       run: |
         rm -rf ~/.cache/common-lisp/
         mkdir -p ~/.cache/common-lisp/
-        ros -e "(ql:quickload 'testing123)" -q
+        ros -e "(ql:quickload 'testing123)"
         
     - name: load code from fasls and run tests
       shell: bash
-      run: ros -e "(ql:quickload :testing123)" -e "(pngload.test:test-images)" -q
+      run: ros -e "(ql:quickload :testing123)" -e "(pngload.test:test-images)"
         
     - name: test read times
       shell: bash
       run: |
         curl http://3bb.cc/tmp/fft.png -o fft.png
-        ros -e "(ql:quickload 'testing123)" -e '(pngload.test:test-read-times "fft.png" :count 10)' -q
+        ros -e "(ql:quickload 'testing123)" -e '(pngload.test:test-read-times "fft.png" :count 10)'
 
