@@ -126,7 +126,7 @@ jobs:
       run: |
         #ros install testing123
         #ros -s testing123 -e "(pngload.test:test-images)"
-        ros -e '(handler-case (ql:quickload :testing123) (error (a) (format t "caught error ~s" a) (uiop:quit 123)))' -e '(handler-case (pngload-test:test-images) (error (a) (format t "caught error ~s" a) (uiop:quit 124)))'
+        ros -e '(handler-case (ql:quickload :testing123) (error (a) (format t "caught error ~s" a) (uiop:quit 123)))' -e '(handler-case (pngload.test:test-images) (error (a) (format t "caught error ~s" a) (uiop:quit 124)))'
 
         
     - name: test read times
