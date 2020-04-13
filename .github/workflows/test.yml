@@ -114,10 +114,11 @@ jobs:
       run: |
         rm -rf ~/.cache/common-lisp/
         mkdir -p ~/.cache/common-lisp/
+        
     - name: cmucl hax
       # cmucl gets some build errors on deps we don't actually need, so try a few extra loads
       continue-on-error: true
-      if: matrix.os == 'cmucl'
+      if: matrix.lisp == 'cmucl'
       shell: bash
       run: |
         ros -s testing123
