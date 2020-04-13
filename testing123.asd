@@ -1,5 +1,5 @@
 (asdf:defsystem #:testing123
-  :depends-on (#:pngload.test #:mmap)
+  :depends-on (#:pngload.test)
   :serial t
   :components
   ())
