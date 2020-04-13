@@ -13,8 +13,8 @@ jobs:
         # sbcl32 and clisp32 don't work, clasp won't build on CI servers?
         #lisp: [sbcl-bin,sbcl,ccl-bin/1.10, ccl,ccl32,ecl,clisp,allegro,cmucl,abcl]
         #os: [ubuntu-latest, macos-latest, windows-latest]
-        lisp: [ccl-bin/1.10]
-        os: [ubuntu-latest, windows-latest]
+        lisp: [ sbcl-bin, cmucl ]
+        os: [ ubuntu-latest ]
         exclude:
           # ccl doesn't seem to work on osx?
             - os: macos-latest
@@ -115,11 +115,16 @@ jobs:
       run: |
         rm -rf ~/.cache/common-lisp/
         mkdir -p ~/.cache/common-lisp/
-        ros -e "(ql:quickload 'testing123)"
+        ros install testing123
+        ros -s testing123 -e "(pngload.test:test-images)"
+        #ros -e "(ql:quickload 'testing123)"
         
     - name: load code from fasls and run tests
       shell: bash
-      run: ros -e "(ql:quickload :testing123)" -e "(pngload.test:test-images)"
+      #run: ros -e "(ql:quickload :testing123)" -e "(pngload.test:test-images)"
+      run: |
+        ros install testing123
+        ros -s testing123 -e "(pngload.test:test-images)"
         
     - name: test read times
       shell: bash
