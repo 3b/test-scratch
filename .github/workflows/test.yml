@@ -115,16 +115,19 @@ jobs:
       run: |
         rm -rf ~/.cache/common-lisp/
         mkdir -p ~/.cache/common-lisp/
-        ros install testing123
-        ros -s testing123 -e "(pngload.test:test-images)"
+        #ros install testing123
+        #ros -s testing123 -e "(pngload.test:test-images)"
         #ros -e "(ql:quickload 'testing123)"
+        ros -e "(handler-case (ql:quickload 'testing123) (error (a) (format t "caught error ~s" a) (uiop:exit 123))"
         
     - name: load code from fasls and run tests
       shell: bash
       #run: ros -e "(ql:quickload :testing123)" -e "(pngload.test:test-images)"
       run: |
-        ros install testing123
-        ros -s testing123 -e "(pngload.test:test-images)"
+        #ros install testing123
+        #ros -s testing123 -e "(pngload.test:test-images)"
+        ros -e "(handler-case (ql:quickload 'testing123) (error (a) (format t "caught error ~s" a) (uiop:exit 123))" -e "(handler-case (pngload-test:test-images) (error (a) (format t "caught error ~s" a) (uiop:exit 123))" 
+
         
     - name: test read times
       shell: bash
