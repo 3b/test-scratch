@@ -24,6 +24,10 @@ jobs:
           # msys or something doesn't work on windows runners?
             - os: windows-latest
               lisp: ecl
+          # clisp doesn't build on windows runner
+            - os: windows-latest
+              lisp: clisp
+          #  
           # ccl never exits on win?
             - os: windows-latest
               lisp: ccl
@@ -87,7 +91,7 @@ jobs:
       shell: bash
       run: |
         echo 1
-        echo 2
+        echo "path=$PATH"
         ros -v -v -e '(format t "~a:~a on ~a~%...~%~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))' -e '(format t "q-o-e = ~s~%" *quit-on-eof*)' -e '(setf *quit-on-eof* t)' -e '(quit)' -e '(format t "---~%")' -e '(uiop:quit 1 t)' -e '(format t "??~%")' -q -e '(format t "!?~%")'
         echo 3
         ros -e '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))' -q
