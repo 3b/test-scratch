@@ -11,12 +11,8 @@ jobs:
     strategy:
       matrix: 
         # sbcl32 and clisp32 don't work, clasp won't build on CI servers?
-        lisp: [sbcl-bin, sbcl, ccl-bin/1.10,ccl32,ecl,clisp,allegro,cmucl,abcl]
-        #lisp: [sbcl, ccl, ecl, cmucl]
-        # lisp: [ ecl, ccl-bin  ]
-        #os: [ubuntu-latest, macos-latest, windows-latest]
-        os: [ windows-latest ]
-        #os: [ubuntu-latest]
+        lisp: [sbcl-bin,sbcl,ccl,ccl32,ecl,clisp,allegro,cmucl,abcl]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         exclude:
           # ccl doesn't seem to work on osx?
             - os: macos-latest
@@ -127,6 +123,6 @@ jobs:
     - name: test read times
       shell: bash
       run: |
-        curl http://3bb.cc/tmp/fft.png -o /tmp/fft.png
-        ros -e "(ql:quickload 'testing123)" -e '(pngload.test:test-read-times "/tmp/fft.png" :count 10)' -q
+        curl http://3bb.cc/tmp/fft.png -o fft.png
+        ros -e "(ql:quickload 'testing123)" -e '(pngload.test:test-read-times "fft.png" :count 10)' -q
 
