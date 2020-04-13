@@ -21,6 +21,9 @@ jobs:
           # ccl doesn't seem to work on osx?
             - os: macos-latest
               lisp: ccl
+          # msys or something doesn't work on windows runners?
+            - os: windows-latest
+              lisp: ecl
           # skip 32bit lisps on osx
             - os: macos-latest
               lisp: sbcl32
