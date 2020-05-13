@@ -16,9 +16,6 @@ jobs:
         lisp: [ sbcl, ecl, abcl]
         os: [ ubuntu-latest ]
         exclude:
-          # ccl doesn't seem to work on osx?
-            - os: macos-latest
-              lisp: ccl
           # msys or something doesn't work on windows runners?
             - os: windows-latest
               lisp: ecl
@@ -34,12 +31,6 @@ jobs:
           # clisp doesn't build on windows runner
             - os: windows-latest
               lisp: clisp
-          #  
-          # ccl and ccl32 never exit on win?
-            - os: windows-latest
-              lisp: ccl
-            - os: windows-latest
-              lisp: ccl32
           # skip 32bit lisps on osx
             - os: macos-latest
               lisp: sbcl32
@@ -105,8 +96,8 @@ jobs:
       # always run install, since it does some global installs and setup that isn't cached
       env:
        LISP: ${{ matrix.lisp }}
-      #run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
-      run: curl -L https://raw.githubusercontent.com/3b/roswell/master/scripts/install-for-ci.sh | sh
+      run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+      #run: curl -L https://raw.githubusercontent.com/3b/roswell/master/scripts/install-for-ci.sh | sh
     
     - name: run lisp
       continue-on-error: true
