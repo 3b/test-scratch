@@ -32,16 +32,16 @@ jobs:
            - os: windows-latest
              lisp: clisp
           # skip 32bit lisps on osx
-            - os: macos-latest
-              lisp: sbcl32
-            - os: macos-latest
-              lisp: ccl32
-            - os: macos-latest
-              lisp: clisp32
-            - os: macos-latest
-              lisp: allegro
-            - os: macos-latest
-              lisp: cmucl
+           - os: macos-latest
+             lisp: sbcl32
+           - os: macos-latest
+             lisp: ccl32
+           - os: macos-latest
+             lisp: clisp32
+           - os: macos-latest
+             lisp: allegro
+           - os: macos-latest
+             lisp: cmucl
       fail-fast: false
       
     runs-on: ${{ matrix.os }}
