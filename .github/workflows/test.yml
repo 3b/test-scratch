@@ -55,21 +55,22 @@ jobs:
       run: |
         git config --global core.autocrlf false
         echo "::set-env name=ROSWELL_INSTALL_DIR::$HOME/ros"
+        echo "::set-env name=MSYS2_PATH_TYPE::inherit"
+        echo "::set-env name=MSYSTEM::mingw64"
         echo "::add-path::$HOME/ros/bin"
         echo "::add-path::C:\msys64\usr\bin\"
-        echo "::add-path::/mingw64/bin"
     - name: Print system version
       run: |
         uname
         ls -l /
         ls -l /c/msys64
-    - name: Install package
+    - name: Install extra packages on windows
       if: matrix.os == 'windows-latest'
       run: |
         # see what's installed
         pacman -Q
-        # install something
-        pacman -S --noconfirm mingw64/mingw-w64-x86_64-zlib
+        # install something from msys/mingw
+        # pacman -S --noconfirm mingw64/mingw-w64-x86_64-zlib
     # check out extra repo if not in QL, or version in ql is too old
     - run: mkdir -p ~/lisp/
     - name: trivial-features from git
