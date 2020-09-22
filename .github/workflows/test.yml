@@ -12,16 +12,13 @@ jobs:
       matrix: 
         # sbcl32 and clisp32 don't work, clasp won't build on CI servers?
         #lisp: [sbcl-bin,sbcl,ccl,ccl32,ecl,clisp,allegro,cmucl,abcl]
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        lisp: [ccl, ccl32]
+        #os: [ubuntu-latest, macos-latest, windows-latest]
+        #lisp: [ccl, ccl32]
         #lisp: [ sbcl, ecl, abcl]
         #os: [ ubuntu-latest ]
+        lisp: [sbcl,ecl,clisp]
+        os: [windows-latest]
         exclude:
-          # msys or something doesn't work on windows runners?
-            - os: windows-latest
-              lisp: ecl
-            - os: windows-latest
-              lisp: sbcl
           # some binaries don't install properly on windows?
             - os: windows-latest
               lisp: allegro
@@ -29,9 +26,6 @@ jobs:
               lisp: cmucl
             - os: windows-latest
               lisp: abcl
-          # clisp doesn't build on windows runner
-            - os: windows-latest
-              lisp: clisp
           # skip 32bit lisps on osx
             - os: macos-latest
               lisp: sbcl32
@@ -46,10 +40,33 @@ jobs:
       fail-fast: false
       
     runs-on: ${{ matrix.os }}
-    
+    defaults:
+      run:
+        # specify shell explicitly to get msys instead of git-bash on windows
+        shell: bash --login -eo pipefail "{0}"
+        
     steps:
     # Check out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+    # set up MSYS shell on windows
+    - name: windows specific settings
+      if: matrix.os == 'windows-latest'
+      shell: pwsh
+      run: |
+        git config --global core.autocrlf false
+        echo "::set-env name=ROSWELL_INSTALL_DIR::~/ros"
+        echo "::add-path::~/ros/bin"
+        echo "::add-path::C:\msys64\usr\bin\"
+    - name: Print system version
+      run: |
+        uname
+    - name: Install package
+      if: matrix.os == 'windows-latest'
+      run: |
+        # see what's installed
+        pacman -Q
+        # install something
+        pacman -S --noconfirm mingw64/mingw-w64-x86_64-zlib
     # check out extra repo if not in QL, or version in ql is too old
     - run: mkdir -p ~/lisp/
     - name: trivial-features from git
@@ -80,7 +97,6 @@ jobs:
       run: echo "::set-env name=cache-key::$(date +%B%d)"
    
     - name: caches
-      shell: bash
       run: |
         echo cache key = ${{ env.cache-key }}
         echo ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-${{ hashFiles('**/*.asd') }}
@@ -102,7 +118,6 @@ jobs:
     
     - name: run lisp
       continue-on-error: true
-      shell: bash
       run: |
         echo 1
         echo "path=$PATH"
@@ -115,7 +130,6 @@ jobs:
         ros -e "(ql:quickload 'trivial-features)" -e '(format t "features = ~s~%" *features*)'
         
     - name: clear fasl cache
-      shell: bash
       run: |
         rm -rf ~/.cache/common-lisp/
         mkdir -p ~/.cache/common-lisp/
@@ -124,25 +138,21 @@ jobs:
       # cmucl gets some build errors on deps we don't actually need, so try a few extra loads
       continue-on-error: true
       if: matrix.lisp == 'cmucl'
-      shell: bash
       run: |
         ros -s testing123
         ros -s testing123
  
     - name: load code from clean fasl cache
-      shell: bash
       run: |
         ros -e '(handler-bind (#+asdf3.2(asdf:bad-SYSTEM-NAME (function MUFFLE-WARNING))) (handler-case (ql:quickload :testing123) (error (a) (format t "caught error ~s~%~a~%" a a) (uiop:quit 123))))'
         
     - name: load code from fasls and run tests
-      shell: bash
       #run: ros -e "(ql:quickload :testing123)" -e "(pngload.test:test-images)"
       run: |
         ros -e '(handler-bind (#+asdf3.2(asdf:bad-system-name (function muffle-warning))) (handler-case (ql:quickload :testing123) (error (a) (format t "caught error ~s~%~a~%" a a) (uiop:quit 123))))' -e '(handler-case (pngload.test:test-images) (t (a) (format t "caught error ~s~%~a~%" a a) (uiop:quit 124)))'
 
         
     - name: test read times
-      shell: bash
       run: |
         curl http://3bb.cc/tmp/fft.png -o fft.png
         ros -e "(ql:quickload 'testing123)" -e '(pngload.test:test-read-times "fft.png" :count 10)'
