@@ -16,16 +16,16 @@ jobs:
         #lisp: [ccl, ccl32]
         #lisp: [ sbcl, ecl, abcl]
         #os: [ ubuntu-latest ]
-        lisp: [sbcl]
+        lisp: [sbcl,ecl,clisp,abcl,allegro,cmucl]
         os: [windows-latest]
         exclude:
           # some binaries don't install properly on windows?
-            - os: windows-latest
-              lisp: allegro
-            - os: windows-latest
-              lisp: cmucl
-            - os: windows-latest
-              lisp: abcl
+#            - os: windows-latest
+#              lisp: allegro
+#            - os: windows-latest
+#              lisp: cmucl
+#            - os: windows-latest
+#              lisp: abcl
           # skip 32bit lisps on osx
             - os: macos-latest
               lisp: sbcl32
