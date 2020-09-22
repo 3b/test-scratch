@@ -54,10 +54,7 @@ jobs:
       shell: pwsh
       run: |
         git config --global core.autocrlf false
-        echo "::set-env name=ROSWELL_INSTALL_DIR::$HOME/ros"
-        echo "::set-env name=MSYS2_PATH_TYPE::inherit"
         echo "::set-env name=MSYSTEM::mingw64"
-        echo "::add-path::$HOME/ros/bin"
         echo "::add-path::C:\msys64\usr\bin\"
     - name: Print system version
       run: |
