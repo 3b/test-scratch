@@ -57,9 +57,12 @@ jobs:
         echo "::set-env name=ROSWELL_INSTALL_DIR::$HOME/ros"
         echo "::add-path::$HOME/ros/bin"
         echo "::add-path::C:\msys64\usr\bin\"
+        echo "::add-path::/mingw64/bin"
     - name: Print system version
       run: |
         uname
+        ls -l /
+        ls -l /c/msys64
     - name: Install package
       if: matrix.os == 'windows-latest'
       run: |
