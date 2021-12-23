@@ -60,7 +60,7 @@ jobs:
       continue-on-error: true
       run: |
         echo 1
-        sbcl --evak '(format t "home = ~s~%" (user-homedir-pathname))' --quit
+        sbcl --eval '(format t "home = ~s~%" (user-homedir-pathname))' --quit
         sbcl --eval '(format t "~a:~a on ~a~%...~%~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))' --quit
         echo 3
         sbcl --eval '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))' --quit
