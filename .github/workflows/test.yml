@@ -10,7 +10,7 @@ jobs:
     name: ${{ matrix.lisp }} on ${{ matrix.os }}
     strategy:
       matrix: 
-        lisp: [0,1]
+        lisp: [0,1,2,3,4,5]
         os: [windows-latest]
       fail-fast: false
       
@@ -28,7 +28,11 @@ jobs:
       shell: pwsh
       run: |
          msiexec /i ${{ fromJSON('[ "sbcl-2.1.11-x86-64-windows-binary.msi",
-                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi" ]') [ matrix.lisp ] }} /qn
+                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi",
+                                    "sbcl-2.1.11-x86-64-windows-binary.msi",
+                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi",
+                                    "sbcl-2.1.11-x86-64-windows-binary.msi",
+                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi"]') [ matrix.lisp ] }} /qn
          echo "C:\Program Files\Steel Bank Common Lisp\" | Out-File -FilePath $env:GITHUB_PATH -Append
 
     - uses: msys2/setup-msys2@v2
