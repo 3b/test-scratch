@@ -10,7 +10,7 @@ jobs:
     name: ${{ matrix.lisp }} on ${{ matrix.os }}
     strategy:
       matrix: 
-        lisp: [0,1,2,3,4,5,6,7,8]
+        lisp: [0,1]
         os: [windows-latest]
       fail-fast: false
       
@@ -45,16 +45,9 @@ jobs:
     
     - name: install sbcl
       run: |
-         wget ${{ fromJSON('[ "https://github.com/sbcl/sbcl/suites/4748258805/artifacts/131406809",
-                              "https://github.com/sbcl/sbcl/suites/4748051802/artifacts/131393844",
-                              "https://github.com/sbcl/sbcl/suites/4746608398/artifacts/131309989",
-                              "https://github.com/sbcl/sbcl/suites/4734271318/artifacts/130585775",
-                              "https://github.com/sbcl/sbcl/suites/4682480164/artifacts/127559464",
-                              "https://github.com/sbcl/sbcl/suites/4610434975/artifacts/124607170",
-                              "https://github.com/sbcl/sbcl/suites/4511919320/artifacts/120559656",
-                              "https://github.com/sbcl/sbcl/suites/4509503715/artifacts/120465184" ]') [ matrix.lisp ] }}
-         unzip -v sbcl-windows-installer
-         msiexec -p sbcl*.msi
+         msiexec -p ${{ fromJSON('[ "sbcl-2.1.11-x86-64-windows-binary.msi",
+                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi" ]') [ matrix.lisp ] }}
+
          
     - name: install ql
       run: |
