@@ -27,23 +27,8 @@ jobs:
     - name: install sbcl
       shell: pwsh
       run: |
-         echo wd
-         dir
-         echo "ws = $Env:GITHUB_WORKSPACE"
-         dir $Env:GITHUB_WORKSPACE
-         echo "install /i ${{ fromJSON('[ "sbcl-2.1.11-x86-64-windows-binary.msi",
-                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi" ]') [ matrix.lisp ] }} /passive /qn /l+* install.log" | Out-File -FilePath install.log -Append
          msiexec /i ${{ fromJSON('[ "sbcl-2.1.11-x86-64-windows-binary.msi",
-                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi" ]') [ matrix.lisp ] }} /qn /liwearucmopv!+* install.log
-
-         dir
-         echo log
-         type install.log
-         echo "PATH = $Env:PATH"
-         dir "c:\Program Files\"
-         #dir "c:\Program Files\Steel Bank Common Lisp"\
-         #dir "c:\Program Files\Steel Bank Common Lisp\bin\"
-         echo "C:\Program Files\Steel Bank Common Lisp\" | Out-File -FilePath $env:GITHUB_PATH -Append
+                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi" ]') [ matrix.lisp ] }} /qn
 
     - uses: msys2/setup-msys2@v2
       with:
@@ -55,20 +40,16 @@ jobs:
     - name: Print system version
       run: |
         uname
-        ls -la "/c/Program Files/"
-        ls -la "/c/Program Files/Steel Bank Common Lisp/" || true
-        ls -la "/c/Program Files/Steel Bank Common Lisp/bin/" || true
-        echo path="$PATH"
         which sbcl
         
     - name: cache ql
-      id: cache-dot-roswell
+      id: cache-ql
       uses: actions/cache@v1
       with:
         path: ~/.roswell
         key: ${{ runner.os }}-ql-${{ hashFiles('**/*.asd') }}
-        restore-keys: ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-
-         
+        restore-keys: ${{ runner.os }}-ql-
+ 
     - name: install ql
       run: |
          wget https://beta.quicklisp.org/quicklisp.lisp
@@ -78,7 +59,7 @@ jobs:
       continue-on-error: true
       run: |
         echo 1
-        echo "path=$PATH"
+        sbcl --evak '(format t "home = ~s~%" (user-homedir-pathname))' --quit
         sbcl --eval '(format t "~a:~a on ~a~%...~%~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))' --quit
         echo 3
         sbcl --eval '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))' --quit
@@ -111,6 +92,18 @@ jobs:
           sbcl --eval "(ql:quickload 'cffi)" --quit
           
     - name: run 4
+      continue-on-error: true
+      run: |
+          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+          sbcl --eval "(ql:quickload 'cffi)" --quit
+          
+    - name: run 5
+      continue-on-error: true
+      run: |
+          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+          sbcl --eval "(ql:quickload 'cffi)" --quit
+          
+    - name: run 6
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
