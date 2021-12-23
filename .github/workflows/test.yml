@@ -28,9 +28,11 @@ jobs:
       shell: pwsh
       run: |
          msiexec /i ${{ fromJSON('[ "sbcl-2.1.11-x86-64-windows-binary.msi",
-                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi" ]') [ matrix.lisp ] }} /passive /qn
-
-
+                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi" ]') [ matrix.lisp ] }} /passive /qn /l* install.log
+         echo log
+         type install.log
+         echo "PATH = $Env:PATH"
+         
     - uses: msys2/setup-msys2@v2
       with:
         path-type: inherit
@@ -41,6 +43,7 @@ jobs:
     - name: Print system version
       run: |
         uname
+        echo path="$PATH"
         
     - name: cache ql
       id: cache-dot-roswell
