@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    name: ${{ matrix.lisp }} on ${{ matrix.os }}
+    name: ${{ matrix.package }} - ${{ matrix.lisp }}
     strategy:
       matrix: 
         lisp: [0,1,2,3]
