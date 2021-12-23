@@ -99,18 +99,6 @@ jobs:
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
           sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
-          
-    - name: run 5
-      continue-on-error: true
-      run: |
-          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
-          
-    - name: run 6
-      continue-on-error: true
-      run: |
-          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
-          
+
 
 
