@@ -41,8 +41,8 @@ jobs:
          type install.log
          echo "PATH = $Env:PATH"
          dir "c:\Program Files\"
-         dir "c:\Program Files\Steel Bank Common Lisp"\
-         dir "c:\Program Files\Steel Bank Common Lisp\bin\"
+         #dir "c:\Program Files\Steel Bank Common Lisp"\
+         #dir "c:\Program Files\Steel Bank Common Lisp\bin\"
          echo "C:\Program Files\Steel Bank Common Lisp\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
 
     - uses: msys2/setup-msys2@v2
@@ -55,7 +55,9 @@ jobs:
     - name: Print system version
       run: |
         uname
-        ls "/c/Program Files/"
+        ls -la "/c/Program Files/"
+        ls -la "/c/Program Files/Steel Bank Common Lisp/" || true
+        ls -la "/c/Program Files/Steel Bank Common Lisp/bin/" || true
         echo path="$PATH"
         which sbcl
         
