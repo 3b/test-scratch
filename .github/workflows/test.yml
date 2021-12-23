@@ -10,14 +10,14 @@ jobs:
     name: ${{ matrix.lisp }} on ${{ matrix.os }}
     strategy:
       matrix: 
-        lisp: [0,1,2,3,4,5]
-        os: [windows-latest]
+        lisp: [0,1,2,3]
+        package: [cffi,pngload,pngload.test]
       fail-fast: false
       
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     defaults:
       run:
-        shell: ${{ fromJSON('[ "bash", "msys2 {0}" ]') [ matrix.os == 'windows-latest' ] }}
+        shell: "msys2 {0}"
     
     steps:
     # Check out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -68,51 +68,49 @@ jobs:
         sbcl --eval '(format t "~a:~a on ~a~%...~%~%" (lisp-implementation-type) (lisp-implementation-version) (machine-type))' --quit
         echo 3
         sbcl --eval '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))' --quit
-        sbcl --eval "(format t \"tf = ~s~%\" (ql:where-is-system 'trivial-features))" --quit
-        sbcl --eval "(format t \"cffi= ~s~%\" (ql:where-is-system 'cffi))" --quit
         sbcl --eval '(format t "init features = ~s~%" *features*)' --quit
       
     - name: run 0
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload 'pngload.test)" --quit
+          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
           
     - name: run 1
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload 'pngload.test)" --quit
+          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
 
     - name: run 2
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload 'pngload.test)" --quit
+          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
           
     - name: run 3
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload 'pngload.test)" --quit
+          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
           
     - name: run 4
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload 'pngload.test)" --quit
+          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
           
     - name: run 5
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload 'pngload.test)" --quit
+          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
           
     - name: run 6
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload 'pngload.test)" --quit
+          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
           
 
 
