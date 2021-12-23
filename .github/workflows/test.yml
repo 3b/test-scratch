@@ -51,7 +51,7 @@ jobs:
     - name: Print system version
       run: |
         uname
-        ls /c/Program Files/
+        ls "/c/Program Files/"
         echo path="$PATH"
         which sbcl
         
