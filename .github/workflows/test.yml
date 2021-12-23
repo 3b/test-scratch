@@ -27,12 +27,20 @@ jobs:
     - name: install sbcl
       shell: pwsh
       run: |
+         dir
+         dir $Env:GITHUB_WORKSPACE
          msiexec /i ${{ fromJSON('[ "sbcl-2.1.11-x86-64-windows-binary.msi",
                                     "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi" ]') [ matrix.lisp ] }} /passive /qn /l* install.log
+
          echo log
          type install.log
          echo "PATH = $Env:PATH"
-         
+         which sbcl
+         msiexec /i $Env:GITHUB_WORKSPACE/${{ fromJSON('[ "sbcl-2.1.11-x86-64-windows-binary.msi",
+                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi" ]') [ matrix.lisp ] }} /passive /qn /l* install.log
+
+
+
     - uses: msys2/setup-msys2@v2
       with:
         path-type: inherit
