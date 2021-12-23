@@ -36,15 +36,15 @@ jobs:
     - name: install sbcl
       shell: pwsh
       run: |
-         msiexec /i ${{ fromJSON('[ "sbcl-2.1.11-x86-64-windows-binary.msi",
-                                    "sbcl-2.1.11-x86-64-windows-binary-ros.msi",
-                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi",
-                                    "sbcl-2.1.11-x86-64-windows-binary.msi",
-                                    "sbcl-2.1.11-x86-64-windows-binary-ros.msi",
-                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi",
-                                    "sbcl-2.1.11-x86-64-windows-binary.msi",
-                                    "sbcl-2.1.11-x86-64-windows-binary-ros.msi",
-                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi"]') [ matrix.lisp ] }} /qn
+         msiexec /i ${{ fromJSON('[ "test-scratch/sbcl-2.1.11-x86-64-windows-binary.msi",
+                                    "test-scratch/sbcl-2.1.11-x86-64-windows-binary-ros.msi",
+                                    "test-scratch/sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi",
+                                    "test-scratch/sbcl-2.1.11-x86-64-windows-binary.msi",
+                                    "test-scratch/sbcl-2.1.11-x86-64-windows-binary-ros.msi",
+                                    "test-scratch/sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi",
+                                    "test-scratch/sbcl-2.1.11-x86-64-windows-binary.msi",
+                                    "test-scratch/sbcl-2.1.11-x86-64-windows-binary-ros.msi",
+                                    "test-scratch/sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi"]') [ matrix.lisp ] }} /qn
          echo "C:\Program Files\Steel Bank Common Lisp\" | Out-File -FilePath $env:GITHUB_PATH -Append
 
     - uses: msys2/setup-msys2@v2
