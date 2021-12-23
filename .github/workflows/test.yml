@@ -34,15 +34,12 @@ jobs:
          echo "install /i ${{ fromJSON('[ "sbcl-2.1.11-x86-64-windows-binary.msi",
                                     "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi" ]') [ matrix.lisp ] }} /passive /qn /l+* install.log" | Out-File -FilePath install.log -Append
          msiexec /i ${{ fromJSON('[ "sbcl-2.1.11-x86-64-windows-binary.msi",
-                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi" ]') [ matrix.lisp ] }} /passive /qn /l+* install.log
+                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi" ]') [ matrix.lisp ] }} /qn /l+* install.log
 
          dir
          echo log
          type install.log
          echo "PATH = $Env:PATH"
-         which sbcl
-
-
 
     - uses: msys2/setup-msys2@v2
       with:
@@ -55,6 +52,7 @@ jobs:
       run: |
         uname
         echo path="$PATH"
+        which sbcl
         
     - name: cache ql
       id: cache-dot-roswell
