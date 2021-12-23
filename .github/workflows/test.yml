@@ -52,7 +52,7 @@ jobs:
       uses: actions/cache@v1
       with:
         path: C:/msys64/home/runneradmin/quicklisp/
-        key: ${{ runner.os }}-ql-p-${{ matrix.lisp }}-${{ hashFiles('**/*.asd') }}
+        key: ${{ runner.os }}-ql-p2-${{ matrix.lisp }}-${{ hashFiles('**/*.asd') }}
         restore-keys: ${{ runner.os }}-ql-
  
     - name: install ql
