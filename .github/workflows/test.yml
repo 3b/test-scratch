@@ -58,6 +58,7 @@ jobs:
       run: |
         uname
         which sbcl
+        cp -r ci-utils/ /c/msys64/home/runneradmin/quicklisp/local-projects/
         
     - name: cache ql
       id: cache-ql
