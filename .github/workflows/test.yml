@@ -47,7 +47,7 @@ jobs:
       id: cache-ql
       uses: actions/cache@v1
       with:
-        path: ~/quicklisp/
+        path: C:/msys64/home/runneradmin/quicklisp/
         key: ${{ runner.os }}-ql-${{ runner.lisp }}-${{ hashFiles('**/*.asd') }}
         restore-keys: ${{ runner.os }}-ql-
  
