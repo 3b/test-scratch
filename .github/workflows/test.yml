@@ -110,4 +110,4 @@ jobs:
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp" --script "CI-utils/roswell/run-test-forms.ros" --eval '(ros.script.run-test-forms::main "-l" "${{ matrix.package }}" "t")'
+          sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp" --eval "(ql:quickload :ci-utils)" --script "CI-utils/roswell/run-test-forms.ros" --eval '(ros.script.run-test-forms::main "-l" "${{ matrix.package }}" "t")'
