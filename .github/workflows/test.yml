@@ -23,6 +23,13 @@ jobs:
     # Check out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    
+    - name: install sbcl
+      shell: pwsh
+      run: |
+         msiexec /i ${{ fromJSON('[ "sbcl-2.1.11-x86-64-windows-binary.msi",
+                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi" ]') [ matrix.lisp ] }} /passive /qn
+
 
     - uses: msys2/setup-msys2@v2
       with:
@@ -42,12 +49,6 @@ jobs:
         path: ~/.roswell
         key: ${{ runner.os }}-ql-${{ hashFiles('**/*.asd') }}
         restore-keys: ${{ runner.os }}-${{ matrix.lisp }}-dot-roswell-
-    
-    - name: install sbcl
-      run: |
-         msiexec -i ${{ fromJSON('[ "sbcl-2.1.11-x86-64-windows-binary.msi",
-                                    "sbcl-2.1.11.145-238d5368e-x86-64-windows-binary.msi" ]') [ matrix.lisp ] }} -passive -qn
-
          
     - name: install ql
       run: |
