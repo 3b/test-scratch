@@ -40,8 +40,8 @@ jobs:
          echo log
          type install.log
          echo "PATH = $Env:PATH"
-         dir c:\program files\Steel Bank Common Lisp\
-         dir c:\program files\Steel Bank Common Lisp\bin\
+         dir "c:\program files\Steel Bank Common Lisp\"
+         dir "c:\program files\Steel Bank Common Lisp\bin\"
          echo "C:\Program Files\Steel Bank Common Lisp\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
 
     - uses: msys2/setup-msys2@v2
