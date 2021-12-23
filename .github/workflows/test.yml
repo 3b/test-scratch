@@ -52,7 +52,7 @@ jobs:
       uses: actions/cache@v1
       with:
         path: C:/msys64/home/runneradmin/quicklisp/
-        key: ${{ runner.os }}-ql-${{ matrix.lisp }}-${{ hashFiles('**/*.asd') }}
+        key: ${{ runner.os }}-ql-p-${{ matrix.lisp }}-${{ hashFiles('**/*.asd') }}
         restore-keys: ${{ runner.os }}-ql-
  
     - name: install ql
@@ -76,41 +76,41 @@ jobs:
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload 'cffi)" --quit
+          sbcl --eval "(ql:quickload 'pngload-test)" --quit
           
     - name: run 1
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload 'cffi)" --quit
+          sbcl --eval "(ql:quickload 'pngload-test)" --quit
 
     - name: run 2
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload 'cffi)" --quit
+          sbcl --eval "(ql:quickload 'pngload-test)" --quit
           
     - name: run 3
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload 'cffi)" --quit
+          sbcl --eval "(ql:quickload 'pngload-test)" --quit
           
     - name: run 4
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload 'cffi)" --quit
+          sbcl --eval "(ql:quickload 'pngload-test)" --quit
           
     - name: run 5
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload 'cffi)" --quit
+          sbcl --eval "(ql:quickload 'pngload-test)" --quit
           
     - name: run 6
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload 'cffi)" --quit
+          sbcl --eval "(ql:quickload 'pngload-test)" --quit
           
