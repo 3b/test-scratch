@@ -10,8 +10,8 @@ jobs:
     name: ${{ matrix.package }} - ${{ matrix.lisp }}
     strategy:
       matrix: 
-        lisp: [0,1,2,3,4,5]
         package: [cffi,pngload,pngload.test]
+        lisp: [0] #,1,2,3,4,5]
       fail-fast: false
       
     runs-on: windows-latest
@@ -22,6 +22,15 @@ jobs:
     steps:
     # Check out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+      with:
+        path: test-scratch
+
+    - name: ci-utils fork
+      uses: actions/checkout@v2
+      with:
+        repository: 3b/ci-utils
+        ref: test2
+        path: ci-utils
 
     
     - name: install sbcl
@@ -55,7 +64,7 @@ jobs:
       uses: actions/cache@v1
       with:
         path: C:/msys64/home/runneradmin/quicklisp/
-        key: ${{ runner.os }}-ql-p2-${{ matrix.lisp }}-${{ hashFiles('**/*.asd') }}
+        key: ${{ runner.os }}-ql-p3-${{ matrix.lisp }}-${{ hashFiles('**/*.asd') }}
         restore-keys: ${{ runner.os }}-ql-
  
     - name: install ql
@@ -96,12 +105,9 @@ jobs:
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
           sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
-          
-    - name: run 4
+
+    - name: ci
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
-
-
-
+          sbcl --script "CI-utils/roswell/run-test-forms.ros" --eval '(ros.script.run-test-forms::main "-l" "${{ matrix.package }}" "t")'
