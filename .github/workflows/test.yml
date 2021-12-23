@@ -72,7 +72,7 @@ jobs:
     - name: install ql
       run: |
          wget https://beta.quicklisp.org/quicklisp.lisp
-         sbcl --load quicklisp.lisp --eval "(quicklisp-quickstart:install)" --eval "(ql:without-prompting (ql:add-to-init-file))" --quit
+         sbcl --load quicklisp.lisp --eval "(quicklisp-quickstart:install)" --eval "(ql-util:without-prompting (ql:add-to-init-file))" --quit
          
     - name: run lisp
       continue-on-error: true
