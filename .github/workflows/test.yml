@@ -81,6 +81,10 @@ jobs:
          ls ~/quicklisp/ || true
          ls ~/quicklisp/local-projects/ || true
          cp -r ci-utils/ /c/msys64/home/runneradmin/quicklisp/local-projects/
+         cp CI-utils/roswell/run-test-forms.ros /tmp/
+         echo '(format t "run~%")' >> /tmp/run-test-forms.ros
+         echo '(main "-l" "${{ matrix.package }}" "t")' >> /tmp/run-test-forms.ros
+         echo '(format t "done~%")' >> /tmp/run-test-forms.ros
 
     - name: run lisp
       continue-on-error: true
@@ -121,4 +125,6 @@ jobs:
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
           # sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script "CI-utils/roswell/run-test-forms.ros" --eval '(ros.script.run-test-forms::main "-l" "${{ matrix.package }}" "t")' --eval "(format t "done")
-          echo '(format t "load~%") (load "CI-utils/roswell/run-test-forms.ros") (ros.script.run-test-forms::main "-l" "${{ matrix.package }}" "t") (format t "done")' | sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script
+          # echo '(format t "load~%") (load "CI-utils/roswell/run-test-forms.ros") (ros.script.run-test-forms::main "-l" "${{ matrix.package }}" "t") (format t "done")' | sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script
+          sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script "CI-utils/roswell/run-test-forms.ros"
+
