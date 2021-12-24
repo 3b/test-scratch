@@ -74,12 +74,6 @@ jobs:
     - name: install ql
       run: |
          sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --eval "(ql-util:without-prompting (ql:add-to-init-file))" --quit  || ( wget https://beta.quicklisp.org/quicklisp.lisp && sbcl --load quicklisp.lisp --eval "(quicklisp-quickstart:install)" --eval "(ql-util:without-prompting (ql:add-to-init-file))" --quit )
-         ls /c/msys64/home/runneradmin/ || true
-         ls /c/msys64/home/runneradmin/quicklisp/ || true
-         ls /c/msys64/home/runneradmin/quicklisp/local-projects/ || true
-         ls ~/ || true
-         ls ~/quicklisp/ || true
-         ls ~/quicklisp/local-projects/ || true
          cp -r ci-utils/ /c/msys64/home/runneradmin/quicklisp/local-projects/
          cp CI-utils/roswell/run-test-forms.ros /tmp/
          echo '(main "-l" "${{ matrix.package }}" "t")' >> /tmp/run-test-forms.ros
