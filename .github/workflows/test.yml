@@ -142,4 +142,18 @@ jobs:
           sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script "/tmp/run-test-forms.ros"
 
 
+    - name: ci 4
+      continue-on-error: true
+      run: |
+          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+          sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script "/tmp/run-test-forms.ros"
+
+
+    - name: ci 5
+      continue-on-error: true
+      run: |
+          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+          sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script "/tmp/run-test-forms.ros"
+
+
 
