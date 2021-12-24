@@ -62,6 +62,8 @@ jobs:
       run: |
         uname
         which sbcl
+        echo "system info"
+        systeminfo
         
     - name: cache ql
       id: cache-ql
