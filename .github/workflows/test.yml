@@ -133,6 +133,27 @@ jobs:
           sbcl  --eval "(ql::call-with-macroexpand-progress (lambda () (ql::call-with-quiet-compilation (lambda () (asdf:load-system '${{ matrix.package }} :force :all)))))" --quit
 
 
+    - name: at 0
+      continue-on-error: true
+      run: |
+          sbcl  --eval "(ql::call-with-macroexpand-progress (lambda () (ql::call-with-quiet-compilation (lambda () (asdf:load-system '${{ matrix.package }} :force t)))))" --quit
+
+    - name: at 1
+      continue-on-error: true
+      run: |
+          sbcl  --eval "(ql::call-with-macroexpand-progress (lambda () (ql::call-with-quiet-compilation (lambda () (asdf:load-system '${{ matrix.package }} :force t)))))" --quit
+
+    - name: at 2
+      continue-on-error: true
+      run: |
+          sbcl  --eval "(ql::call-with-macroexpand-progress (lambda () (ql::call-with-quiet-compilation (lambda () (asdf:load-system '${{ matrix.package }} :force t)))))" --quit
+
+    - name: at 3
+      continue-on-error: true
+      run: |
+          sbcl  --eval "(ql::call-with-macroexpand-progress (lambda () (ql::call-with-quiet-compilation (lambda () (asdf:load-system '${{ matrix.package }} :force t)))))" --quit
+
+
 
     - name: ci 0
       continue-on-error: true
