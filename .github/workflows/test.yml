@@ -4,7 +4,8 @@ on:
     branches: [ master,sbcl ]
   pull_request:
     branches: [ master ]
-
+  workflow_dispatch
+  
 jobs:
   test:
     name: ${{ matrix.package }} - ${{ matrix.lisp }}
@@ -73,7 +74,7 @@ jobs:
  
     - name: install ql
       run: |
-         sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --eval "(ql-util:without-prompting (ql:add-to-init-file))" --quit  || wget https://beta.quicklisp.org/quicklisp.lisp && sbcl --load quicklisp.lisp --eval "(quicklisp-quickstart:install)" --eval "(ql-util:without-prompting (ql:add-to-init-file))" --quit
+         sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --eval "(ql-util:without-prompting (ql:add-to-init-file))" --quit  || ( wget https://beta.quicklisp.org/quicklisp.lisp && sbcl --load quicklisp.lisp --eval "(quicklisp-quickstart:install)" --eval "(ql-util:without-prompting (ql:add-to-init-file))" --quit )
          ls /c/msys64/home/runneradmin/ || true
          ls /c/msys64/home/runneradmin/quicklisp/ || true
          ls /c/msys64/home/runneradmin/quicklisp/local-projects/ || true
@@ -120,4 +121,4 @@ jobs:
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp" --eval "(ql:quickload :ci-utils)" --script "CI-utils/roswell/run-test-forms.ros" --eval '(ros.script.run-test-forms::main "-l" "${{ matrix.package }}" "t")'
+          sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script "CI-utils/roswell/run-test-forms.ros" --eval '(ros.script.run-test-forms::main "-l" "${{ matrix.package }}" "t")'
