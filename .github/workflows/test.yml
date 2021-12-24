@@ -4,8 +4,7 @@ on:
     branches: [ master,sbcl ]
   pull_request:
     branches: [ master ]
-  workflow_dispatch
-  
+
 jobs:
   test:
     name: ${{ matrix.package }} - ${{ matrix.lisp }}
