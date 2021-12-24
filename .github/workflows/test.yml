@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix: 
         package: [cffi,pngload,pngload.test]
-        lisp: [0] #,1,2,3,4,5]
+        lisp: [0,1,2,3,4,5]
       fail-fast: false
       
     runs-on: windows-latest
@@ -82,9 +82,7 @@ jobs:
          ls ~/quicklisp/local-projects/ || true
          cp -r ci-utils/ /c/msys64/home/runneradmin/quicklisp/local-projects/
          cp CI-utils/roswell/run-test-forms.ros /tmp/
-         echo '(format t "run~%")' >> /tmp/run-test-forms.ros
          echo '(main "-l" "${{ matrix.package }}" "t")' >> /tmp/run-test-forms.ros
-         echo '(format t "done~%")' >> /tmp/run-test-forms.ros
 
     - name: run lisp
       continue-on-error: true
@@ -96,36 +94,58 @@ jobs:
         sbcl --eval '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))' --quit
         sbcl --eval '(format t "init features = ~s~%" *features*)' --quit
       
-    - name: run 0
-      continue-on-error: true
-      run: |
-          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
-          
-    - name: run 1
-      continue-on-error: true
-      run: |
-          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
+#    - name: run 0
+#      continue-on-error: true
+#      run: |
+#          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+#          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
+#          
+#    - name: run 1
+#      continue-on-error: true
+#      run: |
+#          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+#          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
+#
+#    - name: run 2
+#      continue-on-error: true
+#      run: |
+#          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+#          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
+#          
+#    - name: run 3
+#      continue-on-error: true
+#      run: |
+#          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+#          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
 
-    - name: run 2
-      continue-on-error: true
-      run: |
-          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
-          
-    - name: run 3
-      continue-on-error: true
-      run: |
-          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
-
-    - name: ci
+    - name: ci 0
       continue-on-error: true
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
           # sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script "CI-utils/roswell/run-test-forms.ros" --eval '(ros.script.run-test-forms::main "-l" "${{ matrix.package }}" "t")' --eval "(format t "done")
           # echo '(format t "load~%") (load "CI-utils/roswell/run-test-forms.ros") (ros.script.run-test-forms::main "-l" "${{ matrix.package }}" "t") (format t "done")' | sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script
-          cat "/tmp/run-test-forms.ros"
           sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script "/tmp/run-test-forms.ros"
+
+
+    - name: ci 1
+      continue-on-error: true
+      run: |
+          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+          sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script "/tmp/run-test-forms.ros"
+
+
+    - name: ci 2
+      continue-on-error: true
+      run: |
+          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+          sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script "/tmp/run-test-forms.ros"
+
+
+    - name: ci 3
+      continue-on-error: true
+      run: |
+          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+          sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script "/tmp/run-test-forms.ros"
+
+
 
