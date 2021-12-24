@@ -10,7 +10,7 @@ jobs:
     name: ${{ matrix.package }} - ${{ matrix.lisp }}
     strategy:
       matrix: 
-        package: [cffi,pngload]#,pngload.test]
+        package: [cffi,mmap,pngload]#,pngload.test]
         lisp: [0,1,2,3,4,5]
       fail-fast: false
       
