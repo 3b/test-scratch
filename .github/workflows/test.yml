@@ -121,4 +121,4 @@ jobs:
       run: |
           rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
           # sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script "CI-utils/roswell/run-test-forms.ros" --eval '(ros.script.run-test-forms::main "-l" "${{ matrix.package }}" "t")' --eval "(format t "done")
-          echo '(format t "load~%") (load "CI-utils/roswell/run-test-forms.ros") (ros.script.run-test-forms::main "-l" "${{ matrix.package }}" "t") (format t "done")' --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script
+          echo '(format t "load~%") (load "CI-utils/roswell/run-test-forms.ros") (ros.script.run-test-forms::main "-l" "${{ matrix.package }}" "t") (format t "done")' | sbcl --load "C:/msys64/home/runneradmin/quicklisp/setup.lisp"  --script
