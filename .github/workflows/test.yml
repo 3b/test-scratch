@@ -10,7 +10,7 @@ jobs:
     name: ${{ matrix.package }} - ${{ matrix.lisp }}
     strategy:
       matrix: 
-        package: [cffi,pngload,pngload.test]
+        package: [cffi,pngload]#,pngload.test]
         lisp: [0,1,2,3,4,5]
       fail-fast: false
       
@@ -88,29 +88,51 @@ jobs:
         sbcl --eval '(format t " fixnum bits:~a~%" (integer-length most-positive-fixnum))' --quit
         sbcl --eval '(format t "init features = ~s~%" *features*)' --quit
       
-#    - name: run 0
-#      continue-on-error: true
-#      run: |
-#          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-#          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
-#          
-#    - name: run 1
-#      continue-on-error: true
-#      run: |
-#          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-#          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
-#
-#    - name: run 2
-#      continue-on-error: true
-#      run: |
-#          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-#          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
-#          
-#    - name: run 3
-#      continue-on-error: true
-#      run: |
-#          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
-#          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
+    - name: run 0
+      continue-on-error: true
+      run: |
+          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
+          
+    - name: run 1
+      continue-on-error: true
+      run: |
+          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
+
+    - name: run 2
+      continue-on-error: true
+      run: |
+          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
+          
+    - name: run 3
+      continue-on-error: true
+      run: |
+          rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/ || true
+          sbcl --eval "(ql:quickload '${{ matrix.package }})" --quit
+
+    - name: a 0
+      continue-on-error: true
+      run: |
+          sbcl  --eval "(ql::call-with-macroexpand-progress (lambda () (ql::call-with-quiet-compilation (lambda () (asdf:load-system '${{ matrix.package }} :force :all)))))" --quit
+
+    - name: a 1
+      continue-on-error: true
+      run: |
+          sbcl  --eval "(ql::call-with-macroexpand-progress (lambda () (ql::call-with-quiet-compilation (lambda () (asdf:load-system '${{ matrix.package }} :force :all)))))" --quit
+
+    - name: a 2
+      continue-on-error: true
+      run: |
+          sbcl  --eval "(ql::call-with-macroexpand-progress (lambda () (ql::call-with-quiet-compilation (lambda () (asdf:load-system '${{ matrix.package }} :force :all)))))" --quit
+
+    - name: a 3
+      continue-on-error: true
+      run: |
+          sbcl  --eval "(ql::call-with-macroexpand-progress (lambda () (ql::call-with-quiet-compilation (lambda () (asdf:load-system '${{ matrix.package }} :force :all)))))" --quit
+
+
 
     - name: ci 0
       continue-on-error: true
