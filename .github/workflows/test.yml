@@ -39,7 +39,7 @@ jobs:
         # make sure MSYSCON is set so roswell doesn't try to install msys
         echo "MSYSCON=defterm" | Out-File -FilePath $env:GITHUB_ENV -Append
         echo "$HOME/.roswell/bin" | Out-File -FilePath $env:GITHUB_PATH -Append
-#        echo "$HOME/.roswell/lisp/quicklisp/bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+        #echo "$HOME/.roswell/lisp/quicklisp/bin" | Out-File -FilePath $env:GITHUB_PATH -Append
 
 
     - uses: actions/checkout@v2
