@@ -101,8 +101,8 @@ jobs:
 
     - name: clear fasl cache
       run: |
-        [ -d $USERPROFILE/AppData/Local/cache/common-lisp/ ] && rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/
-        [ -d ~/.cache/common-lisp/ ] &7 rm -rf ~/.cache/common-lisp/
+        [ -d "$USERPROFILE/AppData/Local/cache/common-lisp/" ] && rm -rf $USERPROFILE/AppData/Local/cache/common-lisp/
+        [ -d "~/.cache/common-lisp/" ] && rm -rf ~/.cache/common-lisp/
         mkdir -p ~/.cache/common-lisp/
 
     - name: load code from clean fasl cache
