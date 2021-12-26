@@ -122,6 +122,6 @@ jobs:
         set +e
         run-test-forms -r 33 -l testing123 "(testing123:fail)"
         [ $? -eq 1 ]
-        run-test-forms -r 33 -l testing123 "(testing123:error)"
+        run-test-forms -r 33 -l testing123 "(testing123:err)"
         [ $? -eq 2 ]
 
