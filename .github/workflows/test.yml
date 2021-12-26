@@ -108,14 +108,14 @@ jobs:
 
     - name: fail
       run: |
-        [ 1 -eq run-test-forms -r 33 -l testing123 "(testing123:fail)" ]
-        [ 2 -eq run-test-forms -r 33 -l testing123 "(testing123:err)" ]
+        [ 1 -eq $( run-test-forms -r 33 -l testing123 "(testing123:fail)") ]
+        [ 2 -eq $( run-test-forms -r 33 -l testing123 "(testing123:err)" ) ]
 
     - name: fail
       run: |
-        [ 3 -eq run-test-forms -r 33 -l testing123 "(testing123:fail)" ]
-        [ 4 -eq run-test-forms -r 33 -l testing123 "(testing123:err)" ]
-        [ 33 -eq run-test-forms -r 33 -l testing123 "(testing123:pass)" ]
+        [ 3 -eq $( run-test-forms -r 33 -l testing123 "(testing123:fail)" ) ]
+        [ 4 -eq $( run-test-forms -r 33 -l testing123 "(testing123:err)" ) ]
+        [ 33 -eq $( run-test-forms -r 33 -l testing123 "(testing123:pass)" ) ]
 
     - name: load code from clean fasl cache
       run: |
@@ -125,11 +125,13 @@ jobs:
 
     - name: load code from fasl
       run: |
-        [ run-test-forms -r 33 -l testing123 "(testing123:pass)" -eq 33]
+        [ $( run-test-forms -r 33 -l testing123 "(testing123:pass)" ) -eq 33]
 
     - name: fail
       run: |
         set +e
+        run-test-forms -r 33 -l testing123 "(testing123:fail)"
+        [ $? -eq 0 ]
         run-test-forms -r 33 -l testing123 "(testing123:fail)"
         [ $? -eq 1 ]
         run-test-forms -r 33 -l testing123 "(testing123:err)"
