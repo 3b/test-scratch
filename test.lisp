@@ -1,6 +1,6 @@
 (defpackage testing123
   (:use :cl)
-  (:export #:pass #:fail #:error))
+  (:export #:pass #:fail #:err))
 
 (in-package testing123)
 (defun pass () t)
