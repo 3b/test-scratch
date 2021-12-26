@@ -108,20 +108,20 @@ jobs:
     - name: load code from clean fasl cache
       run: |
         set -e
-        run-test-forms -r 0x3b -l testing123 "pass"
-        [ $? -eq 0x3b ]
+        run-test-forms -r 33 -l testing123 "pass"
+        [ $? -eq 33 ]
 
     - name: load code from fasl
       run: |
         set -e
-        run-test-forms -r 0x3b -l testing123 "pass"
-        [ $? -eq 0x3b ]
+        run-test-forms -r 33 -l testing123 "pass"
+        [ $? -eq 33 ]
 
     - name: fail
       run: |
         set -e
-        run-test-forms -r 0x3b -l testing123 "fail"
+        run-test-forms -r 33 -l testing123 "fail"
         [ $? -eq 1 ]
-        run-test-forms -r 0x3b -l testing123 "error"
+        run-test-forms -r 33 -l testing123 "error"
         [ $? -eq 2 ]
 
