@@ -1,5 +1,5 @@
 (asdf:defsystem #:testing123
-  :depends-on (#:pngload.test)
+  :depends-on ()
   :serial t
   :components
-  ())
+  ((:file "test")))
