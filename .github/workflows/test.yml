@@ -42,9 +42,10 @@ jobs:
         # echo "$HOME/.roswell/lisp/quicklisp/bin" | Out-File -FilePath $env:GITHUB_PATH -Append
 
     - uses: actions/checkout@v2
-       # check out into subdir so we can pull other projects next to it.
-       # roswell CI script sets up current dir as asdf search tree
-       path: test-scratch
+      # check out into subdir so we can pull other projects next to it.
+      # roswell CI script sets up current dir as asdf search tree
+      with:
+        path: test-scratch
 
     - name: ci-utils fork
       uses: actions/checkout@v2
