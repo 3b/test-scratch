@@ -38,7 +38,8 @@ jobs:
         git config --global core.autocrlf false
         # make sure MSYSCON is set so roswell doesn't try to install msys
         echo "MSYSCON=defterm" >> $GITHUB_ENV
-        echo "$HOME/.roswell/bin" >> $GITHUB_PATH 
+        echo "$HOME/.roswell/bin" >> $GITHUB_PATH
+        echo "$(cygpath -m $USERPROFILE )/.roswell/bin" >> $GITHUB_PATH
 
     - uses: actions/checkout@v2
       # check out into subdir so we can pull other projects next to it.
