@@ -33,7 +33,8 @@ jobs:
     - name: windows specific settings
       if: matrix.os == 'windows-latest'
       run: |
-        git config --global core.autocrlf input
+        git config --global core.autocrlf false
+        git config --global core.eol lf
         # make sure MSYSCON is set so roswell doesn't try to install msys
         echo "MSYSCON=defterm" >> $GITHUB_ENV
         # roswell installs to window profile dir rather than msys2 home
@@ -129,7 +130,7 @@ jobs:
         }
         EOF
         cat ~/.profile
-        hexdump -C CI-Utils/roswell/run-test-forms.ros
+        hexdump -C ci-utils/roswell/run-test-forms.ros
 
     - name: run lisp
       continue-on-error: true
