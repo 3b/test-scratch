@@ -116,7 +116,7 @@ jobs:
           # expects -l package forms
           # to pass to run-test-forms
           echo "$RUN $*"
-          local RET=( set +e ; $RUN -r $PASS $@ ; echo $*)
+          local RET=$( set +e ; $RUN -r $PASS $@ ; echo $* )
           if [ $RET -eq $EXPECT ]
           then
             echo -e "\033[0;32mGot $RET, expected $EXPECT: OK\033[0m"
