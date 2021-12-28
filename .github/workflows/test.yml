@@ -19,7 +19,7 @@ jobs:
       run:
         # specify shell explicitly to get msys instead of git-bash on windows
         # shell: bash --login -eo pipefail "{0}"
-        shell: ${{ fromJSON('[ "bash -eo pipefail --login {0}", "msys2 {0}" ]') [ matrix.os == 'windows-latest' ] }}
+        shell: ${{ fromJSON('[ "bash -l -eo pipefail {0}", "msys2 {0}" ]') [ matrix.os == 'windows-latest' ] }}
 
     steps:
     - uses: msys2/setup-msys2@v2
@@ -93,7 +93,7 @@ jobs:
         echo ...
         cat <<"EOF" > ~/.bashrc
         echo "loading functions"
-        CI_UTILS=${{ env.GITHUB_WORKSPACE}}/ci-utils
+        CI_UTILS=$GITHUB_WORKSPACE/ci-utils
         RUN=$CI_UTILS/run-test-forms.ros
         PASS=33
         run_tests () {
