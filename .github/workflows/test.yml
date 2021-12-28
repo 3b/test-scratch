@@ -131,6 +131,8 @@ jobs:
         EOF
         cat ~/.profile
         hexdump -C ci-utils/roswell/run-test-forms.ros
+        cd ci-utils
+        git config -l
 
     - name: run lisp
       continue-on-error: true
@@ -174,5 +176,5 @@ jobs:
       run: |
         EXPECT=4 run_tests -h
         EXPECT=1 run_tests -l testing123 "(testing123:fail)"
-        EXPECT=1 run_tests -l testing123 "(testing123:err)"
+        EXPECT=2 run_tests -l testing123 "(testing123:err)"
 
