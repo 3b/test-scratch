@@ -132,7 +132,7 @@ jobs:
         cat ~/.profile
         hexdump -C ci-utils/roswell/run-test-forms.ros
         cd ci-utils
-        git config -l
+        git config -l --show-origin
 
     - name: run lisp
       continue-on-error: true
