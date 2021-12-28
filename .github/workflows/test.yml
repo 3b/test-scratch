@@ -19,7 +19,7 @@ jobs:
       run:
         # specify shell explicitly to get msys instead of git-bash on windows
         # shell: bash --login -eo pipefail "{0}"
-        shell: "${{ fromJSON('[ \"bash\", \"msys2\" ]') [ matrix.os == 'windows-latest' ] }} -login -eo pipefail -x {0}"
+        shell: "${{ fromJSON('[ \"bash\", \"msys2\" ]') [ matrix.os == 'windows-latest' ] }} -login -e -o pipefail -x {0}"
 
     steps:
     - uses: msys2/setup-msys2@v2
@@ -30,6 +30,9 @@ jobs:
         release: false
         update: false
 
+    -name: cmd
+      shell: "msys2 {0}"
+      run: cat /d/a/_temp/setup-msys2/msys2.CMD
 
     - name: windows specific settings
       if: matrix.os == 'windows-latest'
