@@ -90,14 +90,14 @@ jobs:
         echo "$HOME/.roswell/bin"
         echo rc
         echo ...
-        cat <<"EOF" > ~/.bashrc
+        cat <<"EOF" > ~/.profile
         echo "loading functions"
         if [ -z $MSYSCON ] ; then
            CI_UTILS=$GITHUB_WORKSPACE/ci-utils
         else
            CI_UTILS=$(cygpath $GITHUB_WORKSPACE)/ci-utils
         fi
-        RUN=$CI_UTILS/run-test-forms.ros
+        RUN=$CI_UTILS/roswell/run-test-forms.ros
         PASS=33
         run_tests () {
           # expects -l package forms
@@ -105,7 +105,7 @@ jobs:
           ( set +e ; $RUN -r $PASS $@ ; [ $? -eq $PASS ] )
         }
         EOF
-        cat ~/.bashrc
+        cat ~/.profile
 
     - name: run lisp
       continue-on-error: true
