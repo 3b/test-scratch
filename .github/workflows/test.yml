@@ -114,6 +114,7 @@ jobs:
         run_tests () {
           # expects -l package forms
           # to pass to run-test-forms
+          echo "$RUN $*"
           ( set +e ; $RUN -r $PASS $@ ; [ $? -eq $PASS ] )
         }
         EOF
@@ -140,13 +141,13 @@ jobs:
 
     - name: fail
       run: |
-        run_tests -l testing123 "(testing123:fail)"
-        run_tests -l testing123 "(testing123:err)"
+        EXPECT=1 run_tests -l testing123 "(testing123:fail)"
+        EXPECT=2 run_tests -l testing123 "(testing123:err)"
 
     - name: fail
       run: |
-        run_tests -l testing123 "(testing123:fail)"
-        run_tests -l testing123 "(testing123:err)"
+        EXPECT=1 run_tests -l testing123 "(testing123:fail)"
+        EXPECT=2 run_tests -l testing123 "(testing123:err)"
         run_tests -l testing123 "(testing123:pass)"
 
     - name: load code from clean fasl cache
@@ -159,8 +160,7 @@ jobs:
 
     - name: fail
       run: |
-        set +e
-        run_tests -l testing123 "(testing123:fail)"
-        run_tests -l testing123 "(testing123:fail)"
-        run_tests -l testing123 "(testing123:err)"
+        EXPECT=3 run_tests -h
+        EXPECT=1 run_tests -l testing123 "(testing123:fail)"
+        EXPECT=1 run_tests -l testing123 "(testing123:err)"
 
