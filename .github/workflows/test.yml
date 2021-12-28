@@ -19,7 +19,7 @@ jobs:
       run:
         # specify shell explicitly to get msys instead of git-bash on windows
         # shell: bash --login -eo pipefail "{0}"
-        shell: "${{ fromJSON('[ \"bash\", \"msys2\" ]') [ matrix.os == 'windows-latest' ] }} -eo pipefail -x {0}"
+        shell: "${{ fromJSON('[ \"bash\", \"msys2\" ]') [ matrix.os == 'windows-latest' ] }} -login -eo pipefail -x {0}"
 
     steps:
     - uses: msys2/setup-msys2@v2
@@ -84,10 +84,10 @@ jobs:
         ros install ci-utils
         echo "$HOME/.roswell/bin" >> $GITHUB_PATH
         echo "$HOME/.roswell/bin"
-        echo bashrc
-        cat ~/.bashrc || true
+        echo profile
+        cat ~/.profile || true
         echo ...
-        cat <<"EOF" > ~/.bashrc
+        cat <<"EOF" > ~/.profile
         echo "loading functions"
         CI_UTILS=${{ env.GITHUB_WORKSPACE}}/ci-utils
         RUN=CI_UTILS/run-test-forms
@@ -98,7 +98,7 @@ jobs:
           ( set +e ; $RUN -r $PASS $@ ; [ $? -eq $PASS ] )
         }
         EOF
-        cat ~/.bashrc
+        cat ~/.profile
 
     - name: run lisp
       continue-on-error: true
