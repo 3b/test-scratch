@@ -19,8 +19,9 @@ jobs:
       run:
         # specify shell explicitly to get msys instead of git-bash on windows
         # shell: bash --login -eo pipefail "{0}"
-        shell: ${{ fromJSON('[ "bash", "msys2 {0}" ]') [ matrix.os == 'windows-latest' ] }}
-
+        #shell: ${{ fromJSON('[ "bash", "msys2 {0}" ]') [ matrix.os == 'windows-latest' ] }}
+        shell: "${{ fromJSON('[ "bash", "msys2" ]') [ matrix.os == 'windows-latest' ] }} -exo pipefail --rcfile ~/functions.sh {0}"
+        
     steps:
 
     - uses: msys2/setup-msys2@v2
@@ -85,7 +86,23 @@ jobs:
         ros install ci-utils
         echo "$HOME/.roswell/bin" >> $GITHUB_PATH
         echo "$HOME/.roswell/bin"
-
+        echo bashrc
+        cat ~/.bashrc || true
+        echo functions
+        cat ~/functions.sh || true
+        echo ...
+        cat <<"EOF" > functions.sh
+        echo "loading functions"
+        CI_UTILS=${{ env.GITHUB_WORKSPACE}}/ci-utils
+        RUN=CI_UTILS/run-test-forms
+        PASS=33
+        run_tests () {
+          # expects -l package forms
+          # to pass to run-test-forms
+          ( set +e ; $RUN -r $PASS $@ ; [ $? -eq $PASS ] )
+        }
+        EOF
+        cat ~/functions.sh
 
     - name: run lisp
       continue-on-error: true
@@ -108,32 +125,27 @@ jobs:
 
     - name: fail
       run: |
-        [ 1 -eq $( run-test-forms -r 33 -l testing123 "(testing123:fail)") ]
-        [ 2 -eq $( run-test-forms -r 33 -l testing123 "(testing123:err)" ) ]
+        run_tests -l testing123 "(testing123:fail)"
+        run_tests -l testing123 "(testing123:err)"
 
     - name: fail
       run: |
-        [ 3 -eq $( run-test-forms -r 33 -l testing123 "(testing123:fail)" ) ]
-        [ 4 -eq $( run-test-forms -r 33 -l testing123 "(testing123:err)" ) ]
-        [ 33 -eq $( run-test-forms -r 33 -l testing123 "(testing123:pass)" ) ]
+        run_tests -l testing123 "(testing123:fail)"
+        run_tests -l testing123 "(testing123:err)"
+        run_tests -l testing123 "(testing123:pass)"
 
     - name: load code from clean fasl cache
       run: |
-        set +e
-        run-test-forms -r 33 -l testing123 "(testing123:pass)"
-        [ $? -eq 3 ]
+        run_tests -l testing123 "(testing123:pass)"
 
     - name: load code from fasl
       run: |
-        [ $( run-test-forms -r 33 -l testing123 "(testing123:pass)" ) -eq 33]
+        run_tests -l testing123 "(testing123:pass)"
 
     - name: fail
       run: |
         set +e
-        run-test-forms -r 33 -l testing123 "(testing123:fail)"
-        [ $? -eq 0 ]
-        run-test-forms -r 33 -l testing123 "(testing123:fail)"
-        [ $? -eq 1 ]
-        run-test-forms -r 33 -l testing123 "(testing123:err)"
-        [ $? -eq 2 ]
+        run_tests -l testing123 "(testing123:fail)"
+        run_tests -l testing123 "(testing123:fail)"
+        run_tests -l testing123 "(testing123:err)"
 
