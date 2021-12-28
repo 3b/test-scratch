@@ -35,14 +35,22 @@ jobs:
       shell: pwsh
       if: matrix.os == 'windows-latest'
       run: |
+        which git
         git config --global core.autocrlf false
         git config --global core.eol lf
+        git config --show-origin --get core.eol || true
+        git config --show-origin --get core.autocrlf || true
+
 
     - name: windows specific settings
       if: matrix.os == 'windows-latest'
       run: |
+        which git
         git config --global core.autocrlf false
         git config --global core.eol lf
+        git config --show-origin --get core.eol || true
+        git config --show-origin --get core.autocrlf || true
+
         # make sure MSYSCON is set so roswell doesn't try to install msys
         echo "MSYSCON=defterm" >> $GITHUB_ENV
         # roswell installs to window profile dir rather than msys2 home
