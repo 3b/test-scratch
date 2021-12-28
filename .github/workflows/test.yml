@@ -143,8 +143,8 @@ jobs:
         which git
         git config -l --show-origin
         echo --
-        git config --show-origin --get core.eol
-        git config --show-origin --get core.autocrlf
+        git config --show-origin --get core.eol || true
+        git config --show-origin --get core.autocrlf || true
 
     - name: run lisp
       continue-on-error: true
