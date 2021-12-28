@@ -30,7 +30,7 @@ jobs:
         release: false
         update: false
 
-    -name: cmd
+    - name: cmd
       shell: "msys2 {0}"
       run: cat /d/a/_temp/setup-msys2/msys2.CMD
 
