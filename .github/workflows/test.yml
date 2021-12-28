@@ -30,15 +30,10 @@ jobs:
         release: false
         update: false
 
-    - name: cmd
-      if: matrix.os == 'windows-latest'
-      shell: "msys2 {0}"
-      run: cat /d/a/_temp/setup-msys2/msys2.CMD
-
     - name: windows specific settings
       if: matrix.os == 'windows-latest'
       run: |
-        git config --global core.autocrlf false
+        git config --global core.autocrlf input
         # make sure MSYSCON is set so roswell doesn't try to install msys
         echo "MSYSCON=defterm" >> $GITHUB_ENV
         # roswell installs to window profile dir rather than msys2 home
@@ -134,6 +129,7 @@ jobs:
         }
         EOF
         cat ~/.profile
+        hexdump -C CI-Utils/roswell/run-test-forms.ros
 
     - name: run lisp
       continue-on-error: true
@@ -175,7 +171,7 @@ jobs:
 
     - name: fail
       run: |
-        EXPECT=3 run_tests -h
+        EXPECT=4 run_tests -h
         EXPECT=1 run_tests -l testing123 "(testing123:fail)"
         EXPECT=1 run_tests -l testing123 "(testing123:err)"
 
