@@ -112,13 +112,11 @@ jobs:
         RUN=$CI_UTILS/roswell/run-test-forms.ros
         PASS=33
         EXPECT=$PASS
-        RET=-1
         run_tests () {
           # expects -l package forms
           # to pass to run-test-forms
           echo "$RUN $*"
-          RET=-1
-          ( set +e ; $RUN -r $PASS $@ ; export RET=$? ; true)
+          local RET=( set +e ; $RUN -r $PASS $@ ; echo $*)
           if [ $RET -eq $EXPECT ]
           then
             echo -e "\033[0;32mGot $RET, expected $EXPECT: OK\033[0m"
