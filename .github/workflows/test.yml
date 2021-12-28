@@ -88,9 +88,21 @@ jobs:
         ros install ci-utils
         echo "$HOME/.roswell/bin" >> $GITHUB_PATH
         echo "$HOME/.roswell/bin"
-        echo rc
+        echo "::group::bp"
+        cat ~/.bash_profile || true
+        echo "::endgroup::"
+        echo "::group::bl"
+        cat ~/.bash_login || true
+        echo "::endgroup::"
+        echo "::group::pr"
+        cat ~/.profile || true
+        echo "::endgroup::"
+        echo "::group::rc"
+        cat ~/.bashrc || true
+        echo "::endgroup::"
         echo ...
-        cat <<"EOF" > ~/.profile
+        echo echo bashrc > ~/.bashrc
+        cat <<"EOF" > ~/.bash_profile
         echo "loading functions"
         if [ -z $MSYSCON ] ; then
            CI_UTILS=$GITHUB_WORKSPACE/ci-utils
