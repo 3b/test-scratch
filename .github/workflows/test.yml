@@ -19,7 +19,7 @@ jobs:
       run:
         # specify shell explicitly to get msys instead of git-bash on windows
         # shell: bash --login -eo pipefail "{0}"
-        shell: ${{ fromJSON('[ "bash --login -eo pipefail", "msys2" ]') [ matrix.os == 'windows-latest' ] }} "{0}"
+        shell: ${{ fromJSON('[ "bash -leo pipefail", "msys2" ]') [ matrix.os == 'windows-latest' ] }} "{0}"
 
     steps:
     - uses: msys2/setup-msys2@v2
@@ -89,11 +89,10 @@ jobs:
         echo "$HOME/.roswell/bin" >> $GITHUB_PATH
         echo "$HOME/.roswell/bin"
         echo rc
-        cat ~/.bashrc || true
         echo ...
         cat <<"EOF" > ~/.bashrc
         echo "loading functions"
-        if [ -n $MSYSCON ] ; then
+        if [ -z $MSYSCON ] ; then
            CI_UTILS=$GITHUB_WORKSPACE/ci-utils
         else
            CI_UTILS=$(cygpath $GITHUB_WORKSPACE)/ci-utils
