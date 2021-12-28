@@ -94,7 +94,7 @@ jobs:
         cat <<"EOF" > ~/.bashrc
         echo "loading functions"
         CI_UTILS=${{ env.GITHUB_WORKSPACE}}/ci-utils
-        RUN=CI_UTILS/run-test-forms.ros
+        RUN=$CI_UTILS/run-test-forms.ros
         PASS=33
         run_tests () {
           # expects -l package forms
