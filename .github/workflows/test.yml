@@ -25,11 +25,11 @@ jobs:
     - uses: msys2/setup-msys2@v2
       if: matrix.os == 'windows-latest'
       with:
-        path-type: minimal
+        path-type: inherit
         msystem: MINGW64
         release: false
         update: false
-        install: git-core
+        # install: git-core
 
     - name: windows specific settings
       shell: pwsh
@@ -140,6 +140,7 @@ jobs:
         cat ~/.profile
         hexdump -C ci-utils/roswell/run-test-forms.ros
         cd ci-utils
+        which git
         git config -l --show-origin
         echo --
         git config --show-origin --get core.eol
