@@ -118,7 +118,7 @@ jobs:
           # to pass to run-test-forms
           echo "$RUN $*"
           RET=-1
-          ( set +e ; $RUN -r $PASS $@ ; RET=$? ; true)
+          ( set +e ; $RUN -r $PASS $@ ; export RET=$? ; true)
           if [ $RET -eq $EXPECT ]
           then
             echo -e "\033[0;32mGot $RET, expected $EXPECT: OK\033[0m"
