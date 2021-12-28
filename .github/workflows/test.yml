@@ -113,18 +113,24 @@ jobs:
         PASS=33
         EXPECT=$PASS
         run_tests () {
-          # expects -l package forms
-          # to pass to run-test-forms
+          # passes arguments to run-test-forms, so use like
+          # run_tests -l system (form)
+          echo -1 > /tmp/run_tests_ret
           echo "$RUN $*"
-          local RET=$( set +e ; $RUN -r $PASS $@ ; echo $* )
-          if [ $RET -eq $EXPECT ]
-          then
-            echo -e "\033[0;32mGot $RET, expected $EXPECT: OK\033[0m"
-            true
-          else
-            echo -e "\033[0;31mGot $RET, expected $EXPECT: BAD $fail\033[0m"
-            false
-          fi
+          # run in a subshell to minimize scope of +e
+          ( set +e
+            $RUN -r $PASS $@
+            local RET=$?
+            set -e
+            if [ $RET -eq $EXPECT ]
+            then
+              echo -e "\033[0;32mGot $RET, expected $EXPECT: OK\033[0m"
+              true
+            else
+              echo -e "\033[0;31mGot $RET, expected $EXPECT: BAD $fail\033[0m"
+              false
+            fi
+          )
         }
         EOF
         cat ~/.profile
