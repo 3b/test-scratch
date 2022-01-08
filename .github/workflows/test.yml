@@ -29,33 +29,23 @@ jobs:
         msystem: MINGW64
         release: false
         update: false
-        # install: git-core
 
     - name: windows specific settings
+      # run with powershell so it sets the git config used by actions/checkout
       shell: pwsh
       if: matrix.os == 'windows-latest'
       run: |
-        which git
         git config --global core.autocrlf false
         git config --global core.eol lf
-        git config --show-origin --get core.eol || true
-        git config --show-origin --get core.autocrlf || true
-
-
-    - name: windows specific settings
-      if: matrix.os == 'windows-latest'
-      run: |
-        which git
-        git config --global core.autocrlf false
-        git config --global core.eol lf
-        git config --show-origin --get core.eol || true
-        git config --show-origin --get core.autocrlf || true
-
         # make sure MSYSCON is set so roswell doesn't try to install msys
-        echo "MSYSCON=defterm" >> $GITHUB_ENV
-        # roswell installs to window profile dir rather than msys2 home
-        echo "$(cygpath -m $USERPROFILE )/.roswell/bin" >> $GITHUB_PATH
-        echo "$(cygpath -m $USERPROFILE )/.roswell/lisp/quicklisp/bin" >> $GITHUB_PATH
+        echo "MSYSCON=defterm" | Out-File -FilePath $env:GITHUB_ENV -Append
+        # roswell installs to windows profile dir, so add to PATH using
+        # pwsh $HOME also
+        echo "$HOME/.roswell/bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+        # not sure what makes roswell install things here
+        echo "$HOME/.roswell/lisp/quicklisp/bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+        echo home = $HOME
+        echo userprofile = $USERPROFILE
 
     - uses: actions/checkout@v2
       # check out into subdir so we can pull other projects next to it.
@@ -69,7 +59,6 @@ jobs:
         repository: 3b/ci-utils
         ref: test2
         path: ci-utils
-
 
     - name: Print system version
       run: |
@@ -100,20 +89,8 @@ jobs:
         ros install ci-utils
         echo "$HOME/.roswell/bin" >> $GITHUB_PATH
         echo "$HOME/.roswell/bin"
-        echo "::group::bp"
-        cat ~/.bash_profile || true
-        echo "::endgroup::"
-        echo "::group::bl"
-        cat ~/.bash_login || true
-        echo "::endgroup::"
-        echo "::group::pr"
-        cat ~/.profile || true
-        echo "::endgroup::"
-        echo "::group::rc"
-        cat ~/.bashrc || true
-        echo "::endgroup::"
-        echo ...
-        echo echo bashrc > ~/.bashrc
+        # we specified a login shell above, so use bash_profile to define
+        # a test wrapper function for tests below
         cat <<"EOF" > ~/.bash_profile
         echo "loading functions"
         if [ -z $MSYSCON ] ; then
@@ -122,12 +99,15 @@ jobs:
            CI_UTILS=$(cygpath $GITHUB_WORKSPACE)/ci-utils
         fi
         RUN=$CI_UTILS/roswell/run-test-forms.ros
+        # arbitrary exit code we tell lisp code to use to signal success
         PASS=33
+        # value we expect on "successful" run of a test, usually $PASS
+        # unless the test isn't expected to return normally from the
+        # lisp code
         EXPECT=$PASS
         run_tests () {
           # passes arguments to run-test-forms, so use like
           # run_tests -l system (form)
-          echo -1 > /tmp/run_tests_ret
           echo "$RUN $*"
           # run in a subshell to minimize scope of +e
           ( set +e
@@ -145,14 +125,6 @@ jobs:
           )
         }
         EOF
-        cat ~/.profile
-        hexdump -C ci-utils/roswell/run-test-forms.ros
-        cd ci-utils
-        which git
-        git config -l --show-origin
-        echo --
-        git config --show-origin --get core.eol || true
-        git config --show-origin --get core.autocrlf || true
 
     - name: run lisp
       continue-on-error: true
